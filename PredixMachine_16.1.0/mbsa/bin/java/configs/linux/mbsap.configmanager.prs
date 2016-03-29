@@ -1,0 +1,9 @@
+# Set configuration IDs and their attributes
+
+mbsap.comms = mbsap.comms.prs
+
+mbsap.tmclient = mbsap.tmclient.prs
+
+mbsap.rtcclient = mbsap.rtcclient.prs
+
+mbsap.global = mbsap.global.prs

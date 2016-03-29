@@ -1,0 +1,767 @@
+<!--
+/**
+ * @module aha-table
+ *
+ * Internal table helper component used by px-data-table.
+ *
+ * Originally based on https://github.com/liuwenchao/aha-table, but heavily modified.
+ *
+ */
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="px-pagination.html">
+
+<dom-module id="aha-table">
+  <link rel="import" type="css" href="css/aha-table.css"/>
+  <template>
+
+    <div class="scroll-body">
+
+      <div class$="{{_getTableClass(tableRows, tableColumns)}}">
+
+        <!-- Header -->
+        <div class="tr">
+          <template is="dom-repeat" items="{{meta}}" as="column">
+            <span class$="{{_getHeaderClass(column)}}">
+              <label
+                class$="{{_getTextSortingClass(column, sortedColumn)}}"
+                on-click="_sort">{{column.label}}<i class$="{{_getSortingClass(column, sortedColumn, descending)}}"></i>
+              </label>
+            </span>
+          </template>
+        </div>
+
+        <!-- Second Header (filter/select all) -->
+        <div class$="{{_getSecondHeaderClass(filterable)}}">
+          <template is="dom-repeat" items="{{meta}}" as="column" id="filterRepeat">
+            <span class="td filter--cell">
+              <!-- select all checkbox -->
+              <template is="dom-if" if="{{_isSelectAllColumn(column)}}">
+                <span class="flex flex--center">
+                  <input id="selectAllCheckbox" type="checkbox"
+                         on-change="_clickSelectAll"/>
+                </span>
+              </template>
+
+              <!-- filter entry -->
+              <template is="dom-if" if="{{_isFilterableColumn(column)}}">
+                <span class="flex flex--justify">
+                  <input class="filter-input text-input--bare filter-cell" type="text" on-keyup="_filter"/>
+                  <i class="fa fa-filter"></i>
+                </span>
+              </template>
+            </span>
+          </template>
+        </div>
+
+        <!-- Data rows -->
+        <template id="recordList" is="dom-repeat" items="{{displayedRows}}" as="internalRow">
+
+          <div class$="{{_getRowClass(internalRow, internalRow._selected)}}" on-click="_clickRow">
+
+            <!-- Data cells -->
+            <template is="dom-repeat" items="{{meta}}" as="column">
+              <span class$="{{_getCellClass(column.name)}}">
+                <span class$="{{_getReaderClass(internalRow, column.name)}}">
+
+                  <!-- selected column checkbox -->
+                  <template is="dom-if" if="{{_isEqual(column.type, 'selected')}}">
+                    <span class="flex flex--center flex--middle">
+                      <input type="checkbox"
+                             checked="{{internalRow._selected::change}}"/>
+                    </span>
+                  </template>
+
+                  <!-- string content -->
+                  <template is="dom-if" if="{{_isEqual(column.type, 'string')}}">
+                    <span>{{_readContent(internalRow, column)}}</span>
+                  </template>
+
+                  <!-- html content -->
+                  <template is="dom-if" if="{{_isEqual(column.type, 'html')}}">
+                    <aha-html-echo html="{{_readContent(internalRow, column)}}"></aha-html-echo>
+                  </template>
+
+                </span>
+              </span>
+            </template>
+
+          </div>
+        </template>
+
+      </div>
+
+    </div>
+
+    <!-- Pagination controls -->
+    <div class="pagination">
+      <px-pagination id="pagination" number-of-items="{{numberOfItems}}" page-size="{{pageSize}}"
+                     first-item-index-to-display="{{firstItemIndex}}"></px-pagination>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'aha-table',
+
+    properties: {
+      //data: instance of the model data
+      data: {
+        type: Array,
+        value: function() {
+          return [];
+        },
+        observer: '_dataChanged'
+      },
+      //meta: instance of the model meta
+      meta: {
+        type: Array,
+        value: function() {
+          return [];
+        }
+      },
+      //selected: all selected row will be referenced here.  Really only readable.
+      selectedRows: {
+        type: Array,
+        value: function() {
+          return [];
+        },
+        notify: true
+      },
+      //selectable: if table row is selectable
+      selectable: {
+        type: Boolean,
+        value: false,
+        observer: "_selectableChanged"
+      },
+      //striped: if table row is striped
+      striped: {
+        type: Boolean,
+        value: false
+      },
+      //tableRows: if table row is striped
+      tableRows: {
+        type: Boolean,
+        value: false
+      },
+      //tableColumns: if table row is striped
+      tableColumns: {
+        type: Boolean,
+        value: false
+      },
+      //filterable: if table row is filterable
+      filterable: {
+        type: Boolean,
+        value: false
+      },
+      //sortedColumn: sorted column name
+      sortedColumn: {
+        type: String,
+        value: ""
+      },
+      // the column names that are filtered on
+      filteredColumns: {
+        type: Array,
+        value: function() {
+          return [];
+        }
+      },
+      //all rows that are currently displayed on the page (visible right now)
+      displayedRows: {
+        type: Array,
+        value: function() {
+          return [];
+        }
+      },
+      //descending: current sorting order
+      descending: {
+        type: Boolean,
+        value: false
+      },
+      // custom function declarations, used in individual columns for filtering/sorting
+      customFunctions: {
+        type: Object,
+        value: function() {
+          return {};
+        }
+      }
+    },
+
+    observers: [
+      '_updateDisplayedRows(firstItemIndex)', // when the first item to display changes
+      '_updateDisplayedRows(pageSize)' // when the size of the page changes
+    ],
+
+    _dataChanged: function() {
+
+      if(this.data === undefined || this.data === null) {
+        return;
+      }
+      // initialize the meta if there is none
+      if(!this.meta || this.meta.length === 0) {
+        var meta = this._generateMetaFromData();
+        this.set('meta', meta);
+      }
+
+      this.internalData = this._initializeInternalData();
+
+      this._filterSortAndUpdateDisplayedTable();
+    },
+
+    _selectableChanged: function(newSelectable) {
+      // if meta is already defined and then selectable is set, we need to backfill the meta with the _selected column
+      if(newSelectable === true && this.meta !== null && this.meta !== undefined && this.meta.length > 0) {
+        this.splice('meta', 0, 0, this._generateMetaForColumn("_selected", "selected", true, "Selected (0)"));
+      }
+    },
+
+    /********** Generating column metadata *************/
+
+    _generateMetaFromData: function() {
+      var meta = [];
+      if(this.selectable && this.data.length > 0) {
+        // add a selected column if selectable
+        meta.push(this._generateMetaForColumn("_selected", "selected", true, "Selected (0)"));
+      }
+      for(var prop in this.data[0]) {
+        if(prop.indexOf('_') !== 0) {//skip internal field
+          meta.push(this._generateMetaForColumn(prop, "string", false, prop.charAt(0).toUpperCase() + prop.slice(1)));
+        }
+      }
+      return meta;
+    },
+
+    _generateMetaForColumn: function(prop, type, isSelectAll, label) {
+      return {
+        name: prop,
+        label: label,
+        type: type,
+        sortable: true,
+        filterable: true,
+        editable: false,
+        required: false,
+        selectAll: isSelectAll
+      };
+    },
+
+    /********** Filter/Sort main function *************/
+
+    _filterSortAndUpdateDisplayedTable: function() {
+
+      // start at original data source (shadow fields, _selected and _filtered are still set)
+      this.filteredSortedData = this.internalData;
+
+      // reset back to unfiltered
+      // leave _selected as is since selected rows should stay selected
+      for(var i = 0; i < this.internalData.length; i++) {
+        this._setInternalDataAt(this.internalData[i], '_filtered', false);
+      }
+
+      // sort
+      if(this.sortedColumn) {
+        this.filteredSortedData = this._sortByColumn(this.filteredSortedData);
+      }
+
+      // filter
+      for(var index in this.filteredColumns) {
+        this.filteredSortedData = this._filterByColumn(this.filteredColumns[index].name,
+          this.filteredColumns[index].userEntry, this.filteredSortedData);
+      }
+
+      // count total number of rows
+      var count = 0;
+      var self = this;
+      this.internalData.forEach(function(row) {
+        if(!self._getInternalDataAt(row, '_filtered')) {
+          count++;
+        }
+      });
+      this.set('numberOfItems', count);
+
+      // with filtering/sorting, it's best just to go back to the first page
+      this.$.pagination.goToPageNumber(1);
+
+      this._updateDisplayedRows();
+    },
+
+    /********** Internal data structure ***********/
+
+    _initializeInternalData: function() {
+      // make internal data structure with shadow fields
+      var internalData = [];
+      for(var i = 0; i < this.data.length; i++) {
+        internalData.push({
+          row: this.data[i],
+          _filtered: false,
+          _selected: false
+        });
+      }
+      return internalData;
+    },
+
+    // set helper method so we don't have to sprinkle logic of this internal data structure throughout
+    _setInternalDataAt: function(row, columnName, value) {
+      if(columnName === '_selected' || columnName === '_filtered') {
+        // shadow fields are in root of row in internal data
+        row[columnName] = value;
+      }
+      else {
+        // the user's data is in the row column of internal data
+        row.row[columnName] = value;
+      }
+    },
+
+    // get helper method so we don't have to sprinkle logic of this internal data structure throughout
+    _getInternalDataAt: function(row, columnName) {
+      if(columnName === '_selected' || columnName === '_filtered') {
+        // shadow fields are in root of row in internal data
+        return row[columnName];
+      }
+      else {
+        // the user's data is in the row column of internal data
+        return row.row[columnName];
+      }
+    },
+
+    /******* Update Displayed rows when major changes ****/
+
+    _updateDisplayedRows: function() {
+
+      if(this.firstItemIndex !== null && this.firstItemIndex !== undefined &&
+        this.pageSize !== null && this.pageSize !== undefined &&
+        this.filteredSortedData !== undefined && this.filteredSortedData !== null) {
+
+        var from = this.firstItemIndex - 1; // pagination is 1-based
+        var to = from + this.pageSize;
+
+        this.set('displayedRows', this.filteredSortedData.slice(from, to));
+
+      }
+    },
+
+    /********** Sorting ************/
+
+    // sort by header click handler
+    _sort: function(e, p) {
+      var column = e.model.column;
+      if(column && column.sortable) {
+        var sortingColumn = column.name;
+        if(sortingColumn === this.sortedColumn) {
+          this.set('descending', !this.descending);
+        } else {
+          this.set('sortedColumn', sortingColumn);
+          this.set('descending', false); // always start ascending when click new column
+        }
+      }
+      this._filterSortAndUpdateDisplayedTable();
+    },
+
+    _sortByColumn: function(rowsToSort) {
+
+      var sortFunction = this._getSortFunction();
+
+      // sorting map: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#Sorting_maps
+      var sortedRows =
+        rowsToSort
+          .map(function(e, i) {
+            var v = this._getInternalDataAt(e, this.sortedColumn);
+            if(undefined === v || null === v) {
+              v = '';
+            }
+            return {
+              index: i,
+              value: typeof v === "string" ? v.toLowerCase() : v
+            };
+          }, this)
+          .sort(sortFunction.bind(this))
+          .map(function(e) {
+            return rowsToSort[e.index];
+          });
+
+      return sortedRows;
+    },
+
+    _getSortFunction: function() {
+      var sortFunction;
+
+      // use custom sort function if there is one
+      this.meta.forEach(function(obj) {
+        if(this.sortedColumn === obj.name) {
+          sortFunction = this.customFunctions[obj['sort-function-name']];
+        }
+      }, this);
+
+      if(!sortFunction) {
+        if(this.sortedColumn === "_selected") {
+          sortFunction = this._defaultSortSelected;
+        }
+        else {
+          sortFunction = this._defaultSortAlphabetically;
+        }
+      }
+
+      return sortFunction;
+    },
+
+    // fallback default sort function if per-column sort isn't specified.
+    _defaultSortAlphabetically: function(a, b) {
+      if(this.descending) {
+        if(a.value < b.value) {
+          return 1;
+        }
+        return -1;
+      }
+      else {
+        if(a.value > b.value) {
+          return 1;
+        }
+        return -1;
+      }
+    },
+
+    _defaultSortSelected: function(a, b) {
+      if(this.descending) {
+        if(a.value && !b.value) {
+          return 1;
+        }
+        else if(!a.value && b.value) {
+          return -1;
+        }
+        return 0;
+      }
+      else {
+        if(a.value && !b.value) {
+          return -1;
+        }
+        else if(!a.value && b.value) {
+          return 1;
+        }
+        return 0;
+      }
+    },
+
+    /********** Filtering ************/
+
+    // filter on typed content in header handler
+    _filter: function(e) {
+
+      // have to do modelForElement because dom-if cancels out dom-repeat model (https://github.com/Polymer/polymer/issues/1865)
+      var column = this.$.filterRepeat.modelForElement(e.target).column;
+
+      if(column && column.filterable) {
+
+        var userEntry = e.target.value;
+
+        var isNotInFilteredColumnsList = true;
+
+        for(var index in this.filteredColumns) {
+          var filteredColumn = this.filteredColumns[index];
+
+          if(filteredColumn.name === column.name) {
+            isNotInFilteredColumnsList = false;
+
+            if(userEntry === "" || userEntry === undefined || userEntry === null) {
+              // don't filter on this column anymore
+              this.filteredColumns.splice(index, 1);
+            }
+            else {
+              // update the user entry with the latest content
+              filteredColumn.userEntry = userEntry;
+            }
+
+          }
+        }
+
+        if(isNotInFilteredColumnsList) {
+          // add the new column to the filtered list
+          this.filteredColumns.push({"name": column.name, "userEntry": userEntry});
+        }
+
+        this._filterSortAndUpdateDisplayedTable();
+
+      }
+    },
+
+    _filterByColumn: function(columnName, userEntry, rowsToFilter) {
+
+      var filterFunction = this._getFilterFunction(columnName);
+
+      for(var i = 0, len = rowsToFilter.length; i < len; i++) {
+
+        // if it's not filtered already
+        if(rowsToFilter[i]._filtered === false) {
+
+          var matched = filterFunction(userEntry, this._getInternalDataAt(rowsToFilter[i], columnName));
+
+          if(!matched) {
+            this._setInternalDataAt(rowsToFilter[i], '_filtered', true);
+          }
+
+        }
+
+      }
+
+      var self = this;
+      this.filtered = rowsToFilter.some(function(row) {
+        return self._getInternalDataAt(row, '_filtered');
+      });
+
+      var filteredRows = rowsToFilter.filter(function(r) {
+        return !self._getInternalDataAt(r, '_filtered');
+      });
+
+      return filteredRows;
+    },
+
+    _getFilterFunction: function(columnName) {
+      var filterFunction;
+
+      // use custom filter function if there is one
+      this.meta.forEach(function(obj) {
+        if(columnName === obj.name) {
+          filterFunction = this.customFunctions[obj['filter-function-name']];
+        }
+      }, this);
+
+      if(!filterFunction) {
+        filterFunction = this._defaultFilter;
+      }
+
+      return filterFunction;
+    },
+
+    _defaultFilter: function(searchString, cellValue) {
+      if(searchString === undefined || searchString === null || searchString === "") {
+        return true;
+      }
+      return (cellValue.toString().toLowerCase().indexOf(searchString.toString().toLowerCase()) > -1);
+    },
+
+
+    /********** Selecting ************/
+
+    _clickRow: function(e) {
+      var column = e.model.column;
+      var row = e.model.internalRow;
+      var detail = {"row": row, "column": column};
+      this.fire('px-row-click', detail); // fire the event after it is marked selected
+      if(this.selectable) {
+        this._selectRow(row, e.model.index);
+
+        // always just make sure selectAll checkbox is unchecked when 1 row is clicked
+        var selectAllCheckbox = Polymer.dom(this.root).querySelector("#selectAllCheckbox");
+        selectAllCheckbox.checked = false;
+
+        // if sorted row is selected, then it is no longer selected
+        if(this.sortedColumn === '_selected') {
+          this.set('sortedColumn', '');
+        }
+      }
+    },
+
+    _clickSelectAll: function(e) {
+      if(e.target.checked) {
+        this._setAllRows(true); // selected
+      }
+      else {
+        this._setAllRows(false); // unselected
+      }
+    },
+
+    _setAllRows: function(isSelected) {
+
+      // set all rows selected/unselected
+      for(var i = 0; i < this.internalData.length; i++) {
+        this._setInternalDataAt(this.internalData[i], '_selected', isSelected);
+      }
+
+      // notify viewing rows of change
+      for(var i = 0; i < this.displayedRows.length; i++) {
+        this.notifyPath('displayedRows.' + i + '._selected', this.displayedRows[i]._selected);
+      }
+
+      // remove everything from user-facing selectedRows property
+      this.splice('selectedRows', 0, this.selectedRows.length);
+      if(isSelected) {
+        // add everything to selectedRows property
+        for(i = 0; i < this.internalData.length; i++) {
+          this.push('selectedRows', this.internalData[i]);
+        }
+      }
+
+      this.set('meta.0.label', "Selected (" + this.selectedRows.length+ ")")
+      this.fire('px-select-all-click', this.selectedRows);
+
+    },
+
+    _selectRow: function(row, indexInDisplayedRows) {
+      this.fire('before-select', row);
+      if(this.selectedRows.indexOf(row) > -1) {
+        row._selected = false;
+        this.notifyPath('displayedRows.' + indexInDisplayedRows + '._selected', row._selected);
+        this.splice('selectedRows', this.selectedRows.indexOf(row), 1);
+      }
+      else {
+        row._selected = true;
+        this.notifyPath('displayedRows.' + indexInDisplayedRows + '._selected', row._selected);
+        this.push('selectedRows', row);
+      }
+      this.set('meta.0.label', "Selected (" + this.selectedRows.length+ ")")
+      this.fire('after-select', row);
+
+    },
+
+
+    /******** Display table helpers (classes, dom-if functions, etc.) *************/
+
+    _getRowClass: function(row, isSelected) {
+      return ['tr', 'rows',
+        this.striped ? 'striped' : '',
+        row._selected ? 'selected' : ''
+      ].join(' ');
+    },
+    _isSelectAllColumn: function(column) {
+      return column.selectAll;
+    },
+    _isFilterableColumn: function(column) {
+      return !column.selectAll && column.filterable;
+    },
+    _getReaderClass: function(internalRow, columnName) {
+      var datum = this._getInternalDataAt(internalRow, columnName);
+      var classList = ['viewing'];
+      if(datum === null || datum === undefined
+        || typeof datum === 'string' && datum.trim().length === 0) {
+        classList.push('empty');
+      }
+      return classList.join(' ');
+    },
+    _readContent: function(row, column) {
+      var datum = this._getInternalDataAt(row, column.name);
+      if(datum === null || datum === undefined
+        || typeof datum === 'string' && datum.trim().length === 0) {
+        var options = column.options;
+        var blank = column.placeholder;
+        if(datum !== "" && options) {
+          //translate value to labels for select
+          for(var i = options.length - 1; i >= 0; i--) {
+            if(options[i].value === datum) {
+              return options[i].label;
+            }
+          }
+        }
+        datum = datum === undefined || datum === null ? '' : datum;
+        return datum === "" ? blank : datum;
+      } else {
+        if(column['max-column-character-width'] > 0) {
+          datum = this._clipDatumString(datum, column);
+        }
+        return datum;
+      }
+    },
+    _clipDatumString: function(datum, column) {
+      var colWidth = column['max-column-character-width'];
+      if(datum.length > colWidth) {
+        if(column['ellipsis-clip-position'] === 'left') {
+          datum = '\u2026' + datum.substr(datum.length - colWidth, datum.length);
+        }
+        else if(column['ellipsis-clip-position'] === 'center') {
+          var datumLeftIndex = Math.floor(colWidth / 2),
+            datumRightIndex = colWidth - datumLeftIndex;
+          datum = datum.substr(0, datumLeftIndex) + '\u2026' + datum.substr(datum.length - datumRightIndex, datum.length);
+        }
+        else { //assume right
+          datum = datum.substr(0, colWidth) + '\u2026';
+        }
+      }
+      return datum;
+    },
+    _isEqual: function(source, target) {
+      return source === target;
+    },
+    _getHeaderClass: function(item) {
+      var classList = ['th ', 'aha-' + item.name + '-th'];
+      if(item.sortable) {
+        classList.push('sortable');
+      }
+      if(!this.tableRows && !this.tableColumns) {
+        classList.push('th--no-borders');
+      }
+      return classList.join(' ');
+    },
+    _getSecondHeaderClass: function(filterable) {
+      var classList = ['tr'];
+      if(!filterable) {
+        classList.push('hidden');
+      }
+      return classList.join(' ');
+    },
+    _getSortingClass: function(column, sortingColumn, descending) {
+      var classList = ['u-ml-', 'sorting', 'fa'];
+      if(sortingColumn === column.name) {
+        classList.push(descending ? 'fa-caret-down' : 'fa-caret-up');
+      }
+      return classList.join(' ');
+    },
+    _getTextSortingClass: function(column, sortingColumn) {
+      var classList = ['column-head'];
+      if(sortingColumn === column.name) {
+        classList.push('sorted-text');
+      }
+      return classList.join(' ');
+    },
+    _getCellClass: function(name) {
+      return ['td ', 'aha-', name, '-td'].join('');
+    },
+    _getTableClass: function(tableRows, tableColumns) {
+      var classList = ['table', 'table--small'];
+      if(tableRows) {
+        classList.push('table--rows');
+      }
+      if(tableColumns) {
+        classList.push('table--columns');
+      }
+      return classList.join(' ');
+    }
+  });
+</script>
+
+<!--
+/**
+ * @module aha-html-echo
+ *
+ *
+ * Generates html elements dynamically, inspired by sortable-table
+ * https://github.com/stevenrskelton/sortable-table
+ *
+ * WARNING! Potential XSS vulnerability if `html` comes from an untrusted source
+ *
+ *    <aha-html-echo
+ *         html="html">
+ *    </aha-html-echo>
+ *
+ * @class aha-html-echo
+ * @author Michael Heinrichs<michael.heinrichs@canoo.com>
+ *
+ */
+-->
+<script>
+  Polymer({
+    is: "aha-html-echo",
+    properties: {
+      //column name
+      html: {
+        type: String,
+        value: "",
+        observer: "onHtmlChanged"
+      }
+    },
+    onHtmlChanged: function() {
+      if(!this.html) {
+        this.html = "";
+      }
+      this.innerHTML = this.html;
+    }
+  });
+</script>

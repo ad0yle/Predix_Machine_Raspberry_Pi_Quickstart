@@ -1,0 +1,90 @@
+<!doctype html>
+
+<html>
+<head>
+  <title>px-chart Demo</title>
+  <meta charset="utf-8">
+
+  <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="../polymer/polymer.html">
+
+  <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+  <link rel="import" href="../px-theme/px-theme.html"/>
+  <link rel="import" href="../iron-ajax/iron-ajax.html"/>
+  <link rel="import" href="px-chart.html"/>
+
+  <style is="custom-style">
+    html {
+      height: 100%;
+      font-size:0.9375em;
+    }
+    body {
+      height: 100%;
+      margin: 0;
+    }
+  </style>
+
+</head>
+
+<body>
+<template is="dom-bind">
+  <section>
+    <px-chart chart-state={{sharedState}}>
+      <px-chart-yaxis id="firstAxis" offset="0"></px-chart-yaxis>
+      <px-chart-yaxis id="anotherAxis" opposite="true" offset="-2.5"></px-chart-yaxis>
+      <px-chart-series-line id="delta-egt-cruise" axis-id="firstAxis">
+        <iron-ajax
+            url="/bower_components/px-demo-data/demo-data/aviation/delta-egt-cruise.json"
+            handle-as="json"></iron-ajax>
+      </px-chart-series-line>
+      <px-chart-series-line id="fan-vibration-cruise" axis-id="anotherAxis">
+        <iron-ajax
+            url="/bower_components/px-demo-data/demo-data/aviation/fan-vibration-cruise.json"
+            handle-as="json"></iron-ajax>
+      </px-chart-series-line>
+    </px-chart>
+  </section>
+
+  <section>
+    <px-chart chart-state={{sharedState}}>
+      <px-chart-yaxis id="firstAxis" offset="0"></px-chart-yaxis>
+      <px-chart-yaxis id="anotherAxis" opposite="true" offset="-2.5"></px-chart-yaxis>
+      <px-chart-series-line id="delta-egt-cruise" axis-id="firstAxis">
+        <iron-ajax
+            url="/bower_components/px-demo-data/demo-data/aviation/delta-egt-cruise.json"
+            handle-as="json"></iron-ajax>
+      </px-chart-series-line>
+      <px-chart-series-line id="fan-vibration-cruise" axis-id="anotherAxis">
+        <iron-ajax
+            url="/bower_components/px-demo-data/demo-data/aviation/fan-vibration-cruise.json"
+            handle-as="json"></iron-ajax>
+      </px-chart-series-line>
+    </px-chart>
+
+  </section>
+
+    <section>
+      <px-chart chart-state={{sharedState}}>
+        <px-chart-yaxis id="firstAxis" offset="0"></px-chart-yaxis>
+        <px-chart-yaxis id="anotherAxis" opposite="true" offset="-2.5"></px-chart-yaxis>
+        <px-chart-series-line id="delta-egt-cruise" axis-id="firstAxis">
+          <iron-ajax
+              url="/bower_components/px-demo-data/demo-data/aviation/delta-egt-cruise.json"
+              handle-as="json"></iron-ajax>
+        </px-chart-series-line>
+        <px-chart-series-line id="fan-vibration-cruise" axis-id="anotherAxis">
+          <iron-ajax
+              url="/bower_components/px-demo-data/demo-data/aviation/fan-vibration-cruise.json"
+              handle-as="json"></iron-ajax>
+        </px-chart-series-line>
+      </px-chart>
+
+    </section>
+
+</template>
+
+
+</body>
+</html>

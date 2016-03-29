@@ -1,0 +1,146 @@
+<link rel="import" href="../polymer/polymer.html"/>
+<!--
+Deck renderer with an API
+
+#### Usage
+```
+<px-dashboard selected-deck="{{selectedDeck}}" context="{{context}}"></px-dashboard>
+```
+
+#### px.dashboard behavior api
+
+##### properties
+
+context object being passed into the deck & cards from dashboard
+```
+context: {
+    type: Object
+}
+```
+
+deck id to pass to dashboard which will be used to load the deck that should be displayed
+currently, this is just a url
+```
+selectedDeck: {
+    type: String
+}
+```
+
+
+@element px-dashboard
+@blurb Element containing basic styling and behaviors (API) for dashboard
+@demo demo.html
+@homepage index.html
+-->
+<dom-module id="px-dashboard">
+    <template>
+        <div id="container"></div>
+    </template>
+</dom-module>
+<script>
+    window.px = window.px || {};
+    px.dealer = px.dealer || {};
+
+    px.dashboard = {
+        properties: {
+            selectedDeckUrl: {
+                type: String,
+                observer: "deckUrlChanged"
+            },
+            viewServiceBaseUrl: {
+                type: String
+            },
+            selectedDeckId: {
+                type: String,
+                observer: "deckIdChanged"
+            },
+            context: {
+                type: Object,
+                observer: "contextChanged"
+            }
+        },
+        deckUrlChanged: function(newDeckUrl){
+            if (newDeckUrl && newDeckUrl.substring(0, 2) !== '{{') {
+                this.fetchAndRenderDeck(newDeckUrl);
+            }
+        },
+        deckIdChanged: function (newDeckId) {
+            if (newDeckId && newDeckId.substring(0, 2) !== '{{') {
+                var url = this._getBaseUrl() + 'decks/' + newDeckId + '?filter[include][cards]&filter[order]=cards';
+                this.fetchAndRenderDeck(url);
+            }
+        },
+        contextChanged: function (newContext) {
+            var deck = this.$.container.querySelector('px-deck');
+            if (deck) {
+                deck.context = this.context;
+            }
+        },
+        created: function () {
+            //console.log('----> dashboard-created!!');
+            var self = this;
+
+            this.addEventListener('px-deck-ready', function (e) {
+                //console.log('dashboard received px-deck-ready <----');
+                //stop event from reaching dealer
+                e.stopPropagation();
+                //since deck is loaded dynamically, context is already ready
+                e.target.context = self.context;
+                e.target.init();
+            });
+        },
+        fetchAndRenderDeck: function(url){
+            var container = this.$.container;
+            if (container) {
+                container.innerHTML = "";
+                var self = this;
+
+                px.dealer.getDeck(url).then(function (res) {
+                    //if the result is from view service then insert element / backward compatible of loading deck as html mark up
+                    if (typeof res === 'object') {
+                        container.appendChild(self._buildDeck(res));
+                    }
+                    else {
+                        container.innerHTML = res;
+                    }
+
+                }, function () {
+                    // TODO - need better error handling here
+                    console.error('fail to load the deck with url ' + url);
+                });
+            }
+            else {
+                console.error('container is not defined');
+            }
+        },
+        _buildDeck: function (deck) {
+            var deckElement = document.createElement(deck.slug);
+            deckElement.setAttribute('id', 'deck-'+deck.id);
+            var self = this;
+            if (deck.cards.constructor == Array) {
+                deck.cards.forEach(function (card) {
+                    card.attributes.url = self._getBaseUrl() + 'cards/'+card.id;
+                    deckElement.addCard(card.slug, card.id, card.title, card.attributes);
+                });
+            }
+            return deckElement;
+        },
+        _getBaseUrl: function(){
+            if (this.viewServiceBaseUrl){
+                if (this.viewServiceBaseUrl.charAt(this.viewServiceBaseUrl.length) !=="/"){
+                    return this.viewServiceBaseUrl + "/";
+                }
+                return this.viewServiceBaseUrl;
+            }
+            else{
+                throw 'view service base url is undefined';
+            }
+        }
+    };
+
+    Polymer({
+        is: 'px-dashboard',
+        behaviors: [px.dashboard]
+    });
+
+</script>

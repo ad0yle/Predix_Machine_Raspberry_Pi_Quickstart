@@ -1,0 +1,71 @@
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="../px-card/px-card.html"/>
+<link rel="import" href="../px-chart/px-chart.html"/>
+
+<dom-module id="time-series-card">
+  <template>
+    <px-card header-text="{{context.name}}">
+      <!--<button on-click="saveBtnClicked">Save</button>-->
+      <px-chart id="tsChart">
+        <px-chart-controls data-controls show-refresh="true" show-date-range="true"></px-chart-controls>
+        <px-chart-yaxis id="firstAxis" offset="0"></px-chart-yaxis>
+        <px-chart-yaxis id="anotherAxis" opposite="true" offset="-2.5"></px-chart-yaxis>
+      </px-chart>
+
+    </px-card>
+  </template>
+</dom-module>
+<script>
+
+  Polymer({
+    is: 'time-series-card',
+    properties: {
+      config: {
+          type: Object
+      }
+    },
+    init: function() {
+      var self = this;
+      /**
+       * use the card's getData API method to fetch data, then pass that data into our time series widget
+       * e.g. this.getData('http://predix-time-series-service').then(function(predixTimeSeriesData) {
+       * In practice, this url will probably come through your context object.
+       *
+       * you can also use the px data transformer to convert from KairosDB format to the expected timeseries data format
+       * e.g. var timeSeriesChartData = window.px.timeseries.adapter.kairosdb.transform(predixTimeSeriesData.queries);
+       *
+       * sample time series data return from time series service
+       */
+
+      this.getData('/sample-data/delta-egt-cruise.json').then(function(firstSeries) {
+        firstSeries.id = 'delta-egt-cruise';
+        firstSeries.axisId = "firstAxis";
+        firstSeries.upperThreshold = "30.5";
+        firstSeries.lowerThreshold = "6.25";
+        self.$.tsChart.addSeries(firstSeries);
+      });
+
+      this.getData('/sample-data/fan-vibration-cruise.json').then(function(secondSeries) {
+        secondSeries.id = 'fan-vibration-cruise';
+        secondSeries.axisId = "anotherAxis";
+        self.$.tsChart.addSeries(secondSeries);
+      });
+
+      /**
+      * on card initialization converts card config to chart widget's chartState property
+      */
+      if (this.config){
+        this.$.tsChart.set('chartState', {chartZoom: self.config, srcElement: {}});
+      }
+    },
+    saveBtnClicked: function(){
+      /**
+      * retrieve widget state from chart widget and assign it to card's config property
+      * then execute save method which will turn all card's properties to card attribute object for saving back to view service
+      */
+      this.config = this.$.tsChart.chartState.chartZoom;
+      this.save();
+    },
+    behaviors: [px.card]
+  });
+</script>

@@ -1,0 +1,79 @@
+# Watchdog OS ping period in seconds
+watchdog.os.period = 5
+
+# Free memory level in kilobytes
+watchdog.os.level.freemem = 1024
+
+# Free memory interval in seconds
+watchdog.os.level.memperiod = 60
+
+# CPU usage level in %
+watchdog.os.level.cpuuse = 95
+
+# CPU usage interval in seconds
+watchdog.os.level.cpuperiod = 60
+
+# Enable or disable sending events for CPU limit
+watchdog.os.cpu.sendevent = true
+
+# Enable or disable sending events for memory limit
+watchdog.os.mem.sendevent = true
+
+# CPU usage on/off
+watchdog.os.check.cpuuse = true
+
+# Mem low on/off
+watchdog.os.check.memlow = true
+
+# Enable or disable os restart.
+watchdog.os.restart = false
+
+### CPU event section
+
+# Action when CPU limit is reached:
+#  none
+#  restart
+#  execute
+#  execute&restart
+#  interface
+watchdog.os.cpu.action = none
+
+# Path to process executable or script for CPU event
+watchdog.os.cpu.executable = 
+
+# Arguments given for process executable for CPU event
+watchdog.os.cpu.arguments = 
+
+# Working dir in which to execute process for CPU event
+watchdog.os.cpu.workingdir = 
+
+# List from interface IDs to notify for MEM event
+# Must implement IEventListener
+watchdog.os.cpu.interfaces = com.prosyst.mbsa.mbs.confirm.restart
+
+### end CPU event section
+
+### MEM event section
+
+# Action when memory limit is reached:
+#  none
+#  restart
+#  execute
+#  execute&restart
+#  interface
+watchdog.os.mem.action = none
+
+# Path to process executable or script for MEM event
+watchdog.os.mem.executable = 
+
+# Arguments given for process executable for MEM event
+watchdog.os.mem.arguments = 
+
+# Working dir in which to execute process for MEM event
+watchdog.os.mem.workingdir = 
+
+# List from interface IDs to notify for MEM event
+# Must implement IEventListener
+watchdog.os.mem.interfaces = com.prosyst.mbsa.mbs.confirm.restart
+
+### end MEM event section

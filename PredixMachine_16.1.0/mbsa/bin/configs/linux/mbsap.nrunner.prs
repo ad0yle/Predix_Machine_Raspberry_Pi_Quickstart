@@ -1,0 +1,5 @@
+# Filename for incoming pipe
+runner.pipe.in=/tmp/.runner.ipc_i
+
+# Filename for outgoing pipe
+runner.pipe.out=/tmp/.runner.ipc_o

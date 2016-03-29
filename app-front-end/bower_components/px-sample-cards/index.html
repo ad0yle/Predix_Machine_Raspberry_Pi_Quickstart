@@ -1,0 +1,104 @@
+<!doctype html>
+
+<html>
+    <head>
+        <title>px-sample-cards Demo</title>
+
+        <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+        <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+
+        <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+        <link rel="import" href="../px-theme/px-theme.html"/>
+
+        <!-- The px javascript library & px-deck are needed for using px-deck -->
+        <script type='application/javascript' src='bower_components/px/dist/px.min.js'></script>
+        <link rel="import" href="../px-card/px-deck.html"/>
+
+        <link rel="import" href="demo-card.html"/>
+        <link rel="import" href="blank-card.html"/>
+        <link rel="import" href="gist-card.html"/>
+        <link rel="import" href="datagrid-card.html"/>
+        <link rel="import" href="toggle-card.html"/>
+        <link rel="import" href="hide-card.html"/>
+        <link rel="import" href="widgets-card.html"/>
+        <link rel="import" href="description-card.html"/>
+        <link rel="import" href="temperature-card.html"/>
+        <link rel="import" href="widget-to-widget-card.html"/>
+        <link rel="import" href="fetch-data-card.html"/>
+        <link rel="import" href="time-series-card.html"/>
+        <link rel="import" href="card-to-card.html"/>
+        <link rel="import" href="sample-card2.html"/>
+    </head>
+
+    <body>
+        <!-- 
+            Note: most demos are static content, so don't use anything from the context.
+            In practice, your content is likely coming from the context, which is passed in manually
+            through px-deck or px-dashboard.
+        -->
+
+        <h2>demo-card</h2>
+        <px-deck context="{{context}}">
+            <demo-card id="1"></demo-card>
+        </px-deck>
+
+        <h2>blank-card and gist-card</h2>
+        <px-deck context="{{context}}">
+            <blank-card id="2"></blank-card>
+            <gist-card id="3"></gist-card>
+        </px-deck>
+
+        <h2>datagrid-card</h2>
+        <px-deck context="{{context}}">
+            <datagrid-card id="4"></datagrid-card>
+        </px-deck>
+
+        <h2>toggle-card and hide-card</h2>
+        <px-deck context="{{context}}">
+            <toggle-card id="5"></toggle-card>
+            <hide-card id="hide-card"></hide-card>
+        </px-deck>
+
+        <h2>description-card</h2>
+        <px-deck context="{{context}}">
+            <description-card id="7" head="The description" repo-url="http://github.com" body=" Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis placerat dolor. Ut pretium purus sit amet justo accumsan dignissim. Sed at libero cursus, venenatis purus vel, hendrerit libero. Pellentesque posuere lobortis elit quis pharetra. Sed ut tincidunt libero, eget cursus neque. Maecenas non mauris nec nibh ornare tristique. Sed facilisis sapien in lorem dapibus, ut bibendum nulla gravida."></description-card>
+        </px-deck>
+
+        <h2>widgets-card</h2>
+        <px-deck context="{{context}}">
+            <widgets-card id="6"></widgets-card>
+        </px-deck>
+
+        <h2>temperature-card and widget-to-widget card</h2>
+        <px-deck context="{{context}}">
+            <temperature-card id="10"></temperature-card>
+            <widget-to-widget-card id="11"></widget-to-widget-card>
+        </px-deck>
+
+
+        <h2>Card to card communication</h2>
+        <px-deck context="{{context}}">
+            <card-to-card id="12"></card-to-card>
+            <card-to-card id="13"></card-to-card>
+        </px-deck>
+        <px-deck context="{{context}}">
+            <sample-card2 id="14"></sample-card2>
+            <sample-card2 id="15"></sample-card2>
+        </px-deck>
+
+        <!-- 
+            This demo will not work outside of an Angular application at this time, since the getData
+            method is only implemented for Angular $http. 
+            In an Angular application, the card can get a url from the context (this.context.url) and 
+            then fetch data from that url.
+        -->
+        <!--
+        <h2>fetch-data-card and time-series-card</h2>
+        <px-deck context="{{context}}">
+            <fetch-data-card id="8"></fetch-data-card>
+            <time-series-card id="9"></time-series-card>
+        </px-deck>
+        -->
+
+    </body>
+</html>

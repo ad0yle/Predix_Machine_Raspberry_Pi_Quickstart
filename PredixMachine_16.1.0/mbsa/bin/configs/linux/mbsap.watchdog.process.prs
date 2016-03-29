@@ -1,0 +1,95 @@
+################################################################################
+# General settings for plugin
+
+# Enable or disable all CPU checks
+watchdog.process.cpu_enabled = false
+
+# Enable or disable all memory checks
+watchdog.process.mem_enabled = false
+
+# Enable or disable all instance / respawn checks
+watchdog.process.inst_enabled = false
+
+# Sample time between all checks for all processes in seconds
+watchdog.process.sample_time = 2
+
+################################################################################
+
+# Name of the process to check limits / respawning
+# If the name is not set all others will be not read
+# NOTE: Append extension for Win32 (e.g. process.exe, process.bat)
+#watchdog.process.1.name = proc-name
+
+# Period for all limits to check in seconds
+watchdog.process.1.period = 5
+
+# Send EventDispatcher event for limits
+watchdog.process.1.send_event = false
+
+########################################
+### CPU section
+
+# Enable or disable CPU limit check
+watchdog.process.1.cpu_enabled = false
+# percentage of CPU usage
+watchdog.process.1.cpu_limit = 5
+
+### end CPU section
+########################################
+
+########################################
+### MEM section
+
+# Enable or disable memory limit check
+watchdog.process.1.mem_enabled = false
+# Memory limit in Bytes
+watchdog.process.1.mem_limit = 10485760
+
+### end MEM section
+########################################
+
+########################################
+### Instance section
+
+# Enable or disable instance limit check
+watchdog.process.1.inst_enabled = false
+# Number of instances for which to generate action/event
+watchdog.process.1.inst_limit = 2
+
+# Flag to count only different parents instances
+watchdog.process.1.count_only_diff_parents = true
+# Flag to count only different instances
+watchdog.process.1.count_only_running = true
+
+#### Instance respawn section ####
+# Enable / disable instance respawn behaviour
+watchdog.process.1.respawn_enabled = false
+# If respawn is enabled, defines the minimium number of instances of the monitored process.
+# If running instances are below this value, a new process is respawned. Default value = 1
+watchdog.process.1.respawn_limit = 1
+####
+
+### end Instance section
+########################################
+
+########################################
+### Actions section
+
+# The action to take whenever a limit has been reached.
+# Possible values are:
+# - none: no action
+# - terminate: terminate the process
+# - restart: restart the process (see .executable, .arguments., and .workingdir)
+# - osrestart: restart the OS
+watchdog.process.1.action = none
+# Process to execute in case of restart action or respawn
+watchdog.process.1.executable = 
+# Arguments to pass in case of restart action or respawn
+watchdog.process.1.arguments = 
+# Working direcotry to execute in case of restart action or respawn
+watchdog.process.1.working_dir =
+
+### end Actions section
+########################################
+
+################################################################################

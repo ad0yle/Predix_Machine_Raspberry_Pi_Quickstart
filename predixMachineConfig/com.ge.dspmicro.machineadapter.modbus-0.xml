@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<modbusMachineAdapterConfig>
+<name>Modbus Machine Adapter</name>
+<description>Onsite monitor modbus nodes</description>
+<dataNodeConfigs>
+<channel protocol="TCP_IP" tcpIpAddress="3.26.59.7" tcpIpPort="503">
+<unit id="1">
+<register name="Compressor-2015_Temperature" dataType="FLOAT" address="0" registerType="HOLDING" description="temperature"/>
+</unit>
+</channel>
+</dataNodeConfigs>
+<!-- Both updateInterval and startPointOffset are in seconds. If startPointOffset == -1, it will start immediately -->
+<dataSubscriptionConfigs>
+<dataSubscriptionConfig name="Temperature_Subscription" updateInterval="1" startPointUnit="MINUTES" startPointOffset="-1">
+<nodeName>Compressor-2015_Temperature</nodeName>
+</dataSubscriptionConfig>
+</dataSubscriptionConfigs>
+</modbusMachineAdapterConfig>

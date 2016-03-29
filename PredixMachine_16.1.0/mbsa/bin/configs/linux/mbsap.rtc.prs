@@ -1,0 +1,9 @@
+# Timeout for starting runtime in seconds.
+rtc.timeout.runtime.start = 120
+
+# Timeout for stopping runtime in seconds.
+rtc.timeout.runtime.stop = 60
+
+# Flag to wait for runtime start when core is exited.
+# If this flag is false all starting runtimes on core exit will be killed.
+rtc.on.exit.wait.for.runtime.start = true

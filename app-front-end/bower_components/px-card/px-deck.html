@@ -1,0 +1,191 @@
+<link rel="import" href="../polymer/polymer.html"/>
+<!--
+A collection of cards which has an API
+
+#### Usage
+```
+<px-deck context="{{context}}">
+    <vibration-card id="card2"></vibration-card>
+    <temperature-card id="card3"></temperature-card>
+</px-deck>
+
+```
+
+#### px.deck behavior api
+
+##### properties
+
+context object which will then be passed into the deck's cards
+```
+context: {
+    type: Object
+}
+```
+
+##### methods
+
+```
+addCard: function(cardName, cardId) {
+//add card to the deck by passing card name (the element name) and card id
+}
+
+// Example:
+document.querySelector('#my-deck').addCard('sample-card', new Date().getTime());
+```
+
+```
+removeCardById: function(cardId){
+//remove card from the deck by card id
+
+// Example:
+document.querySelector('#my-deck').removeCardById('sample-card-1');
+}
+```
+
+-->
+
+<dom-module id="px-deck">
+    <template>
+        <content></content>
+    </template>
+</dom-module>
+<script>
+    window.px = window.px || {};
+
+    window.addEventListener('px-dashboard-ready', function () {
+        //console.log('window received px-dashboard ready');
+        document.querySelector('px-dashboard').init();
+    });
+
+    px.deck = {
+        properties: {
+            context: {
+                type: Object,
+                observer: 'contextChanged'
+            }
+        },
+        contextChanged: function (thing) {
+            //console.log('itchanged', thing);
+            var self = this;
+            Object.keys(this.cards).forEach(function (cardId) {
+                //console.log('pushing this context', self.context);
+                self.cards[cardId].context = self.context;
+            });
+        },
+        created: function () {
+            this.cards = {};
+            //console.log('----> deck-created!!');
+            var self = this;
+            var deckReadyFired = false;
+            this.deckInitialized = false;
+
+            this.addEventListener('px-card-ready', function (e) {
+                //console.log('deck received px-card-ready <----');
+                self.registerCardInDeck(e.target);
+
+                //if deck initialized, just initialized the card
+                if (self.deckInitialized) {
+                    self.initializeCard(e.target);
+                }
+                else {
+                    //fire px-deck-ready when no more px-card-ready after 250ms
+                    self.debounce('px-deck-ready', function () {
+                        //do not fire deck ready twice,
+                        if (!deckReadyFired) {
+                            self.fire('px-deck-ready', null, {cancelable: true});
+                            deckReadyFired = true;
+                        }
+                    }, 250);
+                }
+            });
+        },
+        ready: function () {
+            //console.log('----------> deck-ready!!');
+            this.state = {};
+        },
+        attached: function () {
+//            console.log('----> deck-attached!!');
+        },
+        init: function () {
+            //console.log('px-deck init is called');
+            var self = this;
+            Object.keys(this.cards).forEach(function (cardId) {
+                self.initializeCard(self.cards[cardId]);
+            });
+
+            this.deckInitialized = true;
+        },
+        initializeCard: function (card) {
+            card.context = this.context;
+            card.init();
+            card.isInit = true;
+        },
+        updateState: function (cardIdSentFrom, state) {
+            var newState = {};
+            Polymer.Base.mixin(newState, this.state);
+            Polymer.Base.mixin(newState, state);
+            this.state = newState;
+
+            var self = this;
+
+            Object.keys(this.cards).forEach(function (cardId) {
+                // only update cards with different ids
+                if (cardId !== cardIdSentFrom) {
+                    self.cards[cardId].set('deckState', self.state);
+                }
+            });
+        },
+        registerCardInDeck: function (card) {
+            card._deck = this;
+            this.cards[card.id] = card;
+        },
+        addCard: function (cardName, cardId, title, attributes) {
+            if (!cardName || !cardId) {
+                throw 'Add card must be called with a card name and card id';
+            }
+
+            var newCard = document.createElement(cardName);
+            newCard.setAttribute('id', 'card-'+cardId);
+            newCard.setAttribute('title', title);
+            newCard.setAttribute('context', '{{context}}');
+
+            if (attributes && typeof attributes === 'object'){
+                for (var attrName in attributes) {
+                    if (typeof attributes[attrName] !== 'object') {
+                        newCard.setAttribute(attrName, attributes[attrName]);
+                    }
+                    else {
+                        newCard.setAttribute(attrName, JSON.stringify(attributes[attrName]));
+                    }
+                }
+            }
+
+            Polymer.dom(this).appendChild(newCard);
+        },
+        removeCardById: function (cardId) {
+            if (!cardId) {
+                throw 'Remove card by id must be called with a card id';
+            }
+
+            var card = Polymer.dom(this).querySelector('#' + cardId);
+
+            if (!card) {
+                console.warn('Cannot find card by id ' + cardId);
+                return;
+            }
+
+            delete this.cards[cardId];
+
+            Polymer.dom(this).removeChild(card);
+        }
+    };
+
+    Polymer({
+        is: 'px-deck',
+        behaviors: [px.deck]
+    });
+
+</script>
+
+
+

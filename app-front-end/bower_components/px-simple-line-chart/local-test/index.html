@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../webcomponentsjs/webcomponents.min.js"></script>
+        <script src="../web-component-tester/browser.js"></script>
+        <script src="../underscore/underscore.js"></script>
+        <link rel="import" href="../px-simple-line-chart.html" />
+        <style>
+            body {
+                padding: 1%;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="in-html" id="fixture" awesomest></div>
+
+        <px-simple-line-chart
+            id="chart-a"
+            width="150"
+            height="100"
+            line-data="[[1, 1],[2, 2],[3, 3],[4, 4],[5, 5],[6, 6],[7, 7],[8, 8],[9, 9],[10, 10],[11, 11],[12, 12],[13, 13],[14, 14],[15, 15],[16, 16],[17, 17],[18, 18]]"
+        ></px-simple-line-chart>
+
+
+        <div class="image">
+            Image goes here
+        </div>
+
+        <div id="svgdataurl">second image</div>
+
+        <button id="save">Save</button>
+
+        <script>
+            /**
+             * Gets styles by a classname
+             *
+             * @notice The className must be 1:1 the same as in the CSS
+             * @param string className_
+             */
+            function getCSSRulesFromClass(className_) {
+                //  all stylesheets on page
+                var allStyleSheets = window.document.styleSheets;
+                for(var i = 0; i < allStyleSheets.length; i++) {
+                    // depending on browser, get .rules or .cssRules
+                    var rules = allStyleSheets[i].rules || allStyleSheets[i].cssRules;
+                    for (var x = 0; x < rules.length; x++) {
+                        // selector text or forget about it with an empty string
+                        var selectorText = rules[x].selectorText || '';
+                        // check if the selector includes our classname
+                        // note: this would be best with a proper Regex
+                        if (_.contains(selectorText.split('.'), className_)) {
+                            // the style object simultaneously contains array of
+                            // defined class styles from the stylesheet
+                            // it also contains placeholder key / value pairs
+                            // for every possible css property,
+                            // hence the odd style[style[y]] below
+                            var style = rules[x].style;
+                            if(style && style.length > 0) {
+                                var ret = [];
+                                for(var y = 0; y < style.length; y++) {
+                                    ret.push({
+                                        ruleText: style[y],
+                                        valueText: style[style[y]]
+                                    });
+                                };
+                                return ret;
+                            };
+                        }
+                    }
+                }
+
+            };
+
+            var applyStyleToElement = function(el) {
+                var styles = [], i, j, rules, classList = el.classList;
+                for(i=0;i<classList.length;i++) {
+                    rules = getCSSRulesFromClass( classList[i] );
+                    for(j = 0; j < rules.length; j++) {
+                        // el.style[rules[j].ruleText] = rules[j].valueText;
+                        el.setAttribute(rules[j].ruleText, rules[j].valueText);
+                    };
+                };
+                //console.log(styles);
+                /*
+                if(typeof el === 'object') {
+                    var styles = window.getComputedStyle(el);
+                    var newStyles = {};
+                    for(var k in styles) {
+                        if (styles.hasOwnProperty(k)) {
+                            // console.log("Key is " + k + ", value is: " + styles[k]);
+                        }
+                    }
+                };
+                */
+            };
+
+            var saveChartImage = function() {
+
+                // note, because the SVG depends on external styling from CSS,
+                // the following will not function as an image because
+                // the css is not encoded into the SVG inline
+                // solution: inline the style of SVG elements to each individual
+                // element itself.
+
+                var chartSVG = document.querySelector('#chart-a .px-simple-line-chart-svg');
+
+                var j = 0;
+                for(j; j < chartSVG.childNodes.length; j++) {
+                    applyStyleToElement(chartSVG.childNodes[j]);
+                };
+
+                setTimeout(function() {
+                    chartSVG = document.querySelector('#chart-a .px-simple-line-chart-svg');
+
+                    // console.log(chartSVG)
+                    chartSVG.setAttribute("version", 1.1);
+                    chartSVG.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+                    console.log(chartSVG);
+                    var chartText = chartSVG.parentNode.innerHTML;
+                    var encoded = btoa(chartText);
+                    var decoded = atob(encoded);
+                    //console.log(decoded.trim());
+                    var imgSrc = 'data:image/svg+xml;base64,'+encoded;
+                    var imgDiv = document.querySelector('#chart-a');
+                    var imgElement = document.createElement('img');
+                    imgElement.setAttribute('src', imgSrc);
+                    imgDiv.appendChild(imgElement);
+
+
+
+                    var imgsrc = 'data:image/svg+xml;base64,'+ encoded;
+                    // console.log(imgsrc);
+
+                    var img = "'<img src='"+imgsrc+"'>'";
+                    d3.select("#chart-a").append("div").html(img);
+                    d3.select('body').append('svg').html(decoded);
+
+                }, 500);
+
+
+            };
+
+            var saveButton = document.querySelector('#save');
+
+            saveButton.addEventListener('click', function() {
+                saveChartImage();
+            }, false);
+
+            setTimeout(function() {
+                saveChartImage();
+            }, 1000);
+
+        /*
+        on("click", function(){
+          var html = d3.select("svg")
+                .attr("version", 1.1)
+                .attr("xmlns", "http://www.w3.org/2000/svg")
+                .node().parentNode.innerHTML;
+
+          //console.log(html);
+          var imgsrc = 'data:image/svg+xml;base64,'+ btoa(html);
+          var img = '<img src="'+imgsrc+'">';
+          d3.select("#svgdataurl").html(img);
+
+
+        });*/
+
+        </script>
+
+        <script>
+            /*
+            WCT.loadSuites([
+                'awesome-tests.js'
+            ]);
+            */
+        </script>
+    </body>
+</html>

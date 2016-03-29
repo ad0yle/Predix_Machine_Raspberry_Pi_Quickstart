@@ -1,0 +1,17 @@
+# Watchdog HWD ping period in seconds
+watchdog.hwd.period = 30
+
+# Watchdog HWD executable
+watchdog.hwd.executable = 
+
+# Watchdog HWD enable options; period is in minutes
+watchdog.hwd.options.enable = 0
+
+# Watchdog HWD disable options
+watchdog.hwd.options.disable = 0
+
+# Watchdog HWD tick options
+watchdog.hwd.options.tick = 0
+
+# Watchdog number used for custom code
+watchdog.hwd.number = 2

@@ -1,0 +1,10 @@
+# Main mBSA core comms info.
+tmclient.transport.id = com.prosyst.mbsa.transport.tcp
+tmclient.transport.data = 127.0.0.1:5670
+
+# Second mBSA core comms info.
+tmclient.transport.second.id = com.prosyst.mbsa.transport.tcp
+tmclient.transport.second.data = 127.0.0.1:5671
+
+# Timeout in milliseconds for sending message.
+tmclient.sendmsg.timeout = 30000

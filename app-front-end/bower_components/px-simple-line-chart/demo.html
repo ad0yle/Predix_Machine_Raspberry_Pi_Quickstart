@@ -1,0 +1,300 @@
+<!doctype html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="favicon.ico" />
+        <title>px-simple-line-chart Demo</title>
+        <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+        <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+        <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+        <link rel="import" href="../iron-ajax/iron-ajax.html"/>
+        <link rel="import" href="../px-theme/px-theme.html"/>
+        <link rel="import" href="px-simple-line-chart.html"/>
+        <style>
+            body, html {
+                padding: 1%;
+                font-family: sans-serif;
+                font-size: 14px;
+                line-height: 20px;
+            }
+            .controls {
+                width: 240px; float: right; margin: 0px; padding: 10px;
+                border: 1px solid #ccc;
+                display: none;
+            }
+            .control {
+                width: 290px;
+                margin: 10px;
+            }
+            .example {
+                float: left;
+                margin-right: 15px;
+            }
+            .config {
+                float: left;
+            }
+            .description {
+                float: left;
+                width: 300px;
+                margin-right: 20px;
+            }
+            hr {
+                height: 1px;
+                border: 0;
+                background: #cccccc;
+                margin: 30px 0;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <template id="just-for-demo" is="dom-bind">
+
+            <div class="description">
+                <strong>Description</strong>
+                <br /><br />
+                <i>Default configuration.</i>
+            </div>
+
+            <div class="example">
+                <strong>Example chart</strong>
+                <br/><br/>
+
+                <px-simple-line-chart
+                    width="250"
+                    height="150"
+                    min="0"
+                    max="2"
+                    threshold="1"
+                    line-data="{{sampleData.series}}">
+                </px-simple-line-chart>
+
+            </div>
+
+            <div class="config">
+                <strong>Element Configuration</strong>
+                <br/><br/>
+                &lt;px-simple-line-chart&gt;
+                <br />
+                &lt;/px-simple-line-chart&gt;
+            </div>
+
+            <br clear="both" /><br /><br />
+            <hr />
+            <h3>101 Randomly Generated Examples:</h3>
+            <br clear="both"/>
+
+            <template is="dom-repeat" items="{{examples}}">
+                <div class="description">
+                    <strong>Description</strong>
+                    <br /><br />
+                    <i>{{item.description}}</i>
+                </div>
+                <div class="example">
+                    <strong>Example chart</strong>
+                    <br/><br/>
+                    <px-simple-line-chart
+                        id="{{item.id}}"
+                        class="example-chart"
+                        line-data="{{sampleData.series}}"
+                        width="{{item.width}}"
+                        height="{{item.height}}"
+                        columns="{{item.columns}}"
+                        rows="{{item.rows}}"
+                        min="{{item.min}}"
+                        max="{{item.max}}"
+                        threshold="{{item.threshold}}"
+                        min-label="{{item.minLabel}}"
+                        max-label="{{item.maxLabel}}"
+                        threshold-label="{{item.thresholdLabel}}"
+                        padding="{{item.padding}}"
+                    >&hearts;</px-simple-line-chart>
+                </div>
+                <div class="config">
+                    <strong>Element Configuration</strong>
+                    <br/><br/>
+                    &lt;px-simple-line-chart
+                    <br />
+                    <template is="dom-if" if="{{item.width}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;width="<span>{{item.width}}</span>"
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.height}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;height="<span>{{item.height}}</span>"
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.columns}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;columns="<span>{{item.columns}}</span>"
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.rows}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;rows="<span>{{item.rows}}</span>"
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.min}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;min="<span>{{item.min}}</span>"
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.max}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;max="<span>{{item.max}}</span>"
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.threshold}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;threshold="<span>{{item.threshold}}</span>"
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.minLabel}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;min-label="<span>{{item.minLabel}}</span>"
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.maxLabel}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;max-label="<span>{{item.maxLabel}}</span>"
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.thresholdLabel}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;threshold-label="<span>{{item.thresholdLabel}}</span>"
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.padding}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;padding="<span>{{item.padding}}</span>"
+                        <br/>
+                    </template>
+                    &gt;&lt;px-simple-line-chart&gt;
+
+                </div>
+                <br clear="both"/>
+                <hr />
+            </template>
+
+            <iron-ajax
+                auto
+                url="demo-data/sample-data.json"
+                handleAs="json"
+                last-response="{{sampleData}}">
+            </iron-ajax>
+
+        </template>
+
+        <script>
+
+            var examples = [];
+
+            function fiftyFifty() {
+                return Math.random() * 100 > 50;
+            };
+
+            function isInt(n){
+                return Number(n) === n && n % 1 === 0;
+            };
+
+            function isFloat(n){
+                return n === Number(n) && n % 1 !== 0;
+            };
+
+            function randomFloat(min,max) {
+                return (Math.random()*(max-min)+min).toFixed(2);
+            };
+
+            function randomInt(min,max) {
+                return Math.floor(Math.random()*(max-min+1)+min);
+            };
+
+            function randomValue(min,max) {
+                if(isFloat(min) || isFloat(max)) {
+                    return randomFloat(min,max);
+                } else {
+                    return randomInt(min,max);
+                }
+            };
+
+            function generateConfigValue(min, max, defaultValue) {
+                return fiftyFifty() ? defaultValue : randomValue(min,max);
+            };
+
+            function generateConfigValueFromSet(set) {
+                return set[randomValue(0,set.length)];
+            };
+
+            function generateChartConfig() {
+                var min = parseFloat( generateConfigValue(0.79-1,1.5,'') );
+                var max = parseFloat( generateConfigValue(min+(0.2),1.99+1,'') );
+                var threshold = parseFloat( generateConfigValue(min+0.2,max-0.2,'') );
+                var columns = generateConfigValue(0,42,'');
+                var rows = generateConfigValue(0,42,'');
+                var width = generateConfigValue(200,600,'');
+                var height = generateConfigValue(100,280,'');
+                var minLabel = generateConfigValueFromSet(['L', 'Min Label', '' , '', '', '', '']);
+                var maxLabel = generateConfigValueFromSet(['H', 'Max Label', '', '', '', '', '']);
+                var thresholdLabel = generateConfigValueFromSet(['T', 'Threshold Label', '', '', '', '']);
+                var padding = generateConfigValueFromSet(['true', 'false']);
+                var d = false;
+                var d = 'This Simple Line Chart is ';
+                if(width) {
+                    d += width + ' pixels wide';
+                    if(height) {
+                        d += ' and ' + height + ' pixels high. ';
+                    } else {
+                        d += '.';
+                    };
+                } else if(!width && height) {
+                    d += height + ' pixels high. ';
+                } else if(!width && !height){
+                    d += ' configured with the following setup. '
+                };
+                if(min) {
+                    d += 'It has a minimum visible value of ' + min + ". ";
+                };
+                if(max) {
+                    d += "It's maximum visible value is " + max + ". ";
+                };
+                if(threshold) {
+                    d += "The threshold is set to " + threshold + ". ";
+                };
+                if(minLabel) {
+                    d += "It's minimum label is set to " + minLabel + ". ";
+                };
+                if(maxLabel) {
+                    d += "The maximum label is set to " + maxLabel + ". ";
+                };
+                if(thresholdLabel) {
+                    d += "The threshold label is set to " + thresholdLabel + ". ";
+                };
+                if(padding) {
+                    d += "The padding is set to " + padding + ". ";
+                };
+
+
+                var config = {
+                    description: d ? d : 'This is the default configuration of <px-simple-line-chart>.',
+                    columns: columns,
+                    rows: rows,
+                    width: width,
+                    height: height,
+                    min: min,
+                    max: max,
+                    threshold: threshold,
+                    minLabel: minLabel,
+                    maxLabel: maxLabel,
+                    thresholdLabel: thresholdLabel,
+                    padding: padding
+                };
+                return config;
+            };
+
+            var template = document.querySelector('#just-for-demo');
+            // The dom-change event signifies when the template has stamped its DOM.
+            template.addEventListener('dom-change', function() {
+                for(i=0;i<100;i++) {
+                    examples.push(generateChartConfig());
+                };
+                this.examples = examples;
+            });
+
+
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,15 @@
+<!doctype html>
+
+<html>
+    <head>
+        <title>px-login Demo</title>
+        <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+        <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+        <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+        <link rel="import" href="px-login.html"/>
+    </head>
+    <body style="background-color: gray">
+        <h3>Demo</h3>
+        <px-login logout-url="logged_out.html" user-info-url="userInfo.js"></px-login>
+    </body>
+</html>

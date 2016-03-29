@@ -1,0 +1,116 @@
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="px-chart-series-line.html"/>
+<link rel="import" href="px-chart-series-scatter.html"/>
+<link rel="import" href="px-chart-series-histogram.html"/>
+<link rel="import" href="px-chart-series-bar.html"/>
+<link rel="import" href="px-chart-controls.html"/>
+<link rel="import" href="px-chart-yaxis.html"/>
+
+<!--
+Element that defines a chart, using sub-elements for axis, series and controls configuration.
+
+See the demo page (demo.html) for working examples.
+
+See px-chart-series-line, px-chart-yaxis, px-chart-controls, etc. for more API docs (selector in upper left corner).
+
+#### Minimal Usage - 1 series of data
+
+    <px-chart>
+      <px-chart-series-line id="hpt-acc-position-cruise" data="{{...}}">
+      </px-chart-series-line>
+    </px-chart>
+
+```js
+// Expected data format
+[
+  [1397102460000, 11.4403],
+  [1397139660000, 13.1913],
+  [1397177400000, 12.8485],
+  [1397228040000, 10.975],
+  [1397248260000, 12.9377],
+  [1397291280000, 13.3795],
+  [1397318100000, 13.0869],
+  [1397342100000, 17.3758]
+]
+// or
+[
+  {'x': 1397102460000, 'y': 11.4403},
+  {'x': 1397139660000, 'y': 13.1913},
+  {'x': 1397177400000, 'y': 12.8485},
+  {'x': 1397228040000, 'y': 10.975},
+  {'x': 1397248260000, 'y': 12.9377},
+  {'x': 1397291280000, 'y': 13.3795},
+  {'x': 1397318100000, 'y': 13.0869},
+  {'x': 1397342100000, 'y': 17.3758}
+]
+```
+
+
+#### Full configuration - multiple series, axis, chart controls
+
+    <px-chart>
+        <px-chart-controls data-controls show-refresh="true" show-date-range="true"></px-chart-controls>
+        <px-chart-yaxis offset="0" id="fan"></px-chart-yaxis>
+        <px-chart-yaxis opposite="true" offset="-10" id="vib"></px-chart-yaxis>
+        <px-chart-series-line id="fan-vibration-cruise" data="{{myData}}" axis-id="fan">
+        </px-chart-series-line>
+        <px-chart-series-line id="hpt-acc-position-cruise" data="{{myData2}}" axis-id="vib">
+        </px-chart-series-line>
+    </px-chart>
+
+#### Different types of series
+
+    <px-chart-series-line>
+    <px-chart-series-scatter>
+    <px-chart-series-histogram>
+    <px-chart-series-bar>
+
+#### Dynamically adding series
+
+      var myChart = document.querySelector("#my-chart");
+
+      fetchMyData().then(function(firstSeries) {
+        firstSeries.id = firstSeries.name; // you must have an id (you can just set it equal to the series name)
+        myChart.addSeries(firstSeries);
+      });
+
+```js
+// Sample response
+{
+  "name": "delta-egt-cruise",
+  "series: [
+    [1397102460000, 11.4403],
+    [1397139660000, 13.1913],
+    [1397177400000, 12.8485],
+    [1397228040000, 10.975],
+    [1397248260000, 12.9377],
+    [1397291280000, 13.3795],
+    [1397318100000, 13.0869],
+    [1397342100000, 17.3758]
+  ]
+}
+```
+
+@demo demo.html
+-->
+
+<script src="../highstock-release/adapters/standalone-framework.js"></script>
+<script src="../highstock-release/highstock.src.js"></script>
+<script src="../highstock-release/modules/exporting.src.js"></script>
+<script src="../annotations/js/annotations.js"></script>
+<script src="../moment/min/moment.min.js"></script>
+
+<dom-module id="px-chart">
+  <link rel="import" type="css" href="css/px-chart.css"/>
+  <template>
+    <section role="region">
+      <header id="pxChartHeader" class="text--right float--right">
+        <content></content>
+        <input type="button" class="btn" style="display: none; position: absolute; top: 60px; right: 60px;" id="resetZoom" value="Reset zoom" on-click="setZoomFalse" />
+      </header>
+      <figure class="u-m0" id="container"></figure>
+    </section>
+  </template>
+</dom-module>
+
+<script type="text/javascript" src="px-chart.js"></script>

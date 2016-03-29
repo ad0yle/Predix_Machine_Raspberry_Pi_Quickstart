@@ -1,0 +1,37 @@
+{
+  "name": "px-widget-cards",
+  "version": "1.0.4",
+  "main": [
+    "px-widget-cards.html"
+  ],
+  "ignore": [
+    ".*",
+    "npm-debug.log",
+    "Gruntfile.js",
+    "sass",
+    "bower_components",
+    "node_modules",
+    "test"
+  ],
+  "dependencies": {
+    "eq.js": "~1.7.0",
+    "polymer": "~v1.0.3",
+    "px-card": "https://github.com/PredixDev/px-card.git#~v0.1.0",
+    "px-theme": "https://github.com/PredixDev/px-theme.git#~v0.3.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#~v1.0.4",
+    "px-layout-design": "https://github.com/PredixDev/px-layout-design.git#~0.3.0",
+    "px-starter-kit-design": "https://github.com/PredixDev/px-starter-kit-design.git#~0.4.0"
+  },
+  "homepage": "https://github.com/PredixDev/px-widget-cards",
+  "_release": "1.0.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.4",
+    "commit": "61f6c1bc0bfd70bd942056a81b846c96d9cb6aa2"
+  },
+  "_source": "https://github.com/PredixDev/px-widget-cards.git",
+  "_target": "v1.0.4",
+  "_originalSource": "https://github.com/PredixDev/px-widget-cards.git"
+}

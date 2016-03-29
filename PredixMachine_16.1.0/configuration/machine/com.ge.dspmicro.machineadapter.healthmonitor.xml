@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<healthMonitorMachineAdapterConfig>
+    <name>Machine health monitor nodes</name>
+    <description>Machine health monitor nodes</description>
+       <dataNodeConfigs>
+              <dataNode name="Node-1-1" nodeType="SYSTEM_CPU_USAGE" dataType="DOUBLE" description="System CPU_Usage" />
+              <dataNode name="Node-2-1" nodeType="SYSTEM_MEMORY_USAGE" dataType="DOUBLE" description="System Memory_Usage" />
+              <dataNode name="Node-3-1" nodeType="SYSTEM_DISK_USAGE" dataType="DOUBLE"  description="System Disk_Usage" />
+              <dataNode name="Node-4-1" nodeType="JVM_MEMORY_USAGE" dataType="DOUBLE" description="JVM_Memory_Usage" />
+       </dataNodeConfigs> 
+
+    <!-- updateInterval is in seconds. -->
+    <dataSubscriptionConfigs>
+        <dataSubscriptionConfig name="SYSTEM_CPU_USAGE" updateInterval="60" >
+            <nodeName>Node-1-1</nodeName>
+        </dataSubscriptionConfig>
+        <dataSubscriptionConfig name="SYSTEM_MEMORY_USAGE" updateInterval="60" >
+            <nodeName>Node-2-1</nodeName>
+        </dataSubscriptionConfig>
+        <dataSubscriptionConfig name="SYSTEM_DISK_USAGE" updateInterval="60" >
+            <nodeName>Node-3-1</nodeName>
+            <nodeName>Node-3-2</nodeName>            
+        </dataSubscriptionConfig>
+        <dataSubscriptionConfig name="JVM_MEMORY_USAGE" updateInterval="60" >
+            <nodeName>Node-4-1</nodeName>
+        </dataSubscriptionConfig>        
+    </dataSubscriptionConfigs>
+
+ </healthMonitorMachineAdapterConfig>

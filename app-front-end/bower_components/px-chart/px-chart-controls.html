@@ -1,0 +1,215 @@
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="../px-rangepicker/px-rangepicker.html"/>
+
+<!--
+Element for default time controls on a chart
+
+##### Usage
+
+    <px-chart-controls
+        data-controls
+        show-export="true"
+        show-date-range="true">
+    </px-chart-controls>
+
+    <px-chart-controls
+        data-controls
+        preset-ranges='[{"label": "1 m", "value": 1, "unit": "months"},{"label": "3 m", "value": 3, "unit": "months"}]'>
+    </px-chart-controls>
+
+    <px-chart-controls
+        data-controls
+        preset-ranges='[]'>
+    </px-chart-controls>
+
+    <px-chart-controls data-controls>
+      <button class="btn">My Special button</button>
+    </px-chart-controls>
+
+@demo demo.html
+-->
+<dom-module id="px-chart-controls">
+  <link rel="import" type="css" href="css/px-chart.css"/>
+  <template>
+    <div>
+      <template is="dom-if" if="{{showExport}}">
+        <button class="btn btn--icon u-ml- float--right" on-click="_exportHandler" title="Export chart">
+          <i class="fa fa-share-square-o"></i>
+        </button>
+      </template>
+
+      <template is="dom-if" if="{{showDateRange}}">
+        <px-rangepicker id="rangepicker" range="{{rangeDisplay}}" preset-ranges="{{presetsForRangepicker}}" class="float--right" display-options="{{displayOptions}}"></px-rangepicker>
+      </template>
+    </div>
+
+    <content></content>
+
+  </template>
+</dom-module>
+
+<script src="../moment/min/moment.min.js"></script>
+
+<script>
+  Polymer({
+
+    is: 'px-chart-controls',
+
+    /**
+     * Properties block, expose attribute values to the DOM via 'reflect'
+     *
+     * @property properties
+     * @type Object
+     */
+    properties: {
+
+      /**
+       * Whether to show date range control
+       *
+       * Can only be statically configured (not data-bindable).
+       *
+       * @type {Boolean}
+       * @default false
+       */
+      showDateRange: {
+        type: Boolean,
+        value: false
+      },
+
+      /**
+       * Whether to show export control
+       *
+       * Can only be statically configured (not data-bindable).
+       *
+       * @type {Boolean}
+       * @default false
+       */
+      showExport: {
+        type: Boolean,
+        value: false
+      },
+
+      /**
+       * Array of object representing the range presets.  Each object in the Array has the following members:
+       *
+       * * "label" {String} The text in the button, e.g. "3 m"
+       * * "value" {Number} The time value, e.g. 3
+       * * "unit" {String} A momentjs unit string, e.g. "months"
+       *
+       * @type {Array}
+       * @default [{label: "1 m", value: 1, unit: "months"},{label: "3 m", value: 3, unit: "months"},{label: "6 m", value: 6, unit: "months"},{label: "1 y", value: 1, unit: "year"}]
+       */
+      presetRanges: {
+        type: Array,
+        observer: '_changePresetRanges',
+        value: [
+          {label: "1 m", value: 1, unit: "months"},
+          {label: "3 m", value: 3, unit: "months"},
+          {label: "6 m", value: 6, unit: "months"},
+          {label: "1 y", value: 1, unit: "year"},
+          {label: "YTD", value: Date.now() - moment().startOf("year").valueOf(), unit: "ms"}
+        ]
+      },
+
+      /**
+       * Range start and end in milliseconds since epoch
+       *
+       * ```
+       * {
+       *    from: {{startMilliseconds}},
+       *    to: {{endMilliseconds}}
+       * }
+       * ```
+       *
+       * @private
+       */
+      rangeMs: {
+        type: Object,
+        observer: '_updateRange'
+      },
+
+      /**
+       * (optional)
+       *
+       * Display configuration that allows optional display patterns
+       *
+       *```
+       * ```
+       *
+       * @default no presets
+       */
+       displayOptions: {
+         type: Object,
+         value: {
+           displayType: 'normal',
+           submitButtonText: 'Submit',
+           submitButtonIcon: ''
+         }
+       }
+
+    },
+
+    observers: [
+      '_submitRange(rangeDisplay)'
+    ],
+
+    ready: function() {    
+  
+      // TOTAL HACK for Polymer 1.0.5 which APM is stuck on for MVP3.  9/21/15   
+      // this code can be deleted once we're off that version; the rangepicker defaults    
+      // work fine without this hack.    
+      if(this.rangeMs === undefined) {   
+        this.set('rangeMs', {    
+            from: moment().subtract(7, 'day').format('x'),   
+            to: moment().format('x')   
+        });    
+      }    
+   
+    },
+    
+    _updateRange: function() {
+      var startMoment = moment(this.rangeMs.from, 'x');
+      var endMoment = moment(this.rangeMs.to, 'x');
+
+      // if either of the range times have changed
+      if (!this.range || !this.range.from.isSame(startMoment, 'second') || !this.range.to.isSame(endMoment, 'second')) {
+        // update the rangepicker with the new range
+        this.range = {
+          from: startMoment,
+          to: endMoment
+        };
+        this.set('rangeDisplay', {
+          from: this.range.from.toISOString(),
+          to: this.range.to.toISOString()
+        });
+      }
+    },
+
+    _changePresetRanges: function(presetRanges) {
+
+      var presetsForRangepicker = presetRanges.map(function(presetRange) {
+        var preset = {};
+        preset.displayText = presetRange.label;
+        preset.startDateTime = moment().subtract(presetRange.value, presetRange.unit).toISOString();
+        preset.endDateTime = moment().toISOString();
+        return preset;
+      });
+
+      if(presetsForRangepicker.length < 1) {
+        presetsForRangepicker = null; // if no presets, don't show preset section at all (empty array will still display that section)
+      }
+
+      this.set('presetsForRangepicker', presetsForRangepicker);
+    },
+
+    _submitRange: function() {
+      var newStartMs = moment(this.rangeDisplay.from, moment.ISO_8601).format('x');
+      var newEndMs = moment(this.rangeDisplay.to, moment.ISO_8601).format('x');
+      Polymer.dom(this).parentNode.setExtremesIfChanged(newStartMs, newEndMs);
+    },
+
+    _exportHandler: function(evt) {
+      Polymer.dom(this).parentNode.chart.exportChart();
+    }
+  });
+</script>

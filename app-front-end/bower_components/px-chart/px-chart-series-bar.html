@@ -1,0 +1,318 @@
+<link rel="import" href="../polymer/polymer.html"/>
+
+<!--
+Element defining a chart series that is displayed as a bar.
+
+### Usage
+
+    <px-chart-series-bar data="{{...}}" id="hpt-acc-position-cruise">
+    </px-chart-series-bar>
+
+For full details on usage, see px-chart-series-line.html.  All examples should work for displaying the series as a bar chart
+(replacing px-chart-series-line for px-chart-series-bar in all examples).
+
+@demo demo.html
+-->
+
+<dom-module id="px-chart-series-bar">
+</dom-module>
+
+
+<script>
+Polymer({
+
+  is: 'px-chart-series-bar',
+
+  /**
+   * Properties block, expose attribute values to the DOM via 'reflect'
+   *
+   * @property properties
+   * @type Object
+   */
+  properties: {
+
+    /**
+     * The data associated with the series, an Array of Arrays with the first value of each inner Array being a unix
+     * timestamp and the second value being the value.
+     *
+     * Fires a "data-changed" event via the "notify" flag when the data changes, the assumption is that the chart will
+     * listen for this event.
+     *
+     * @type {Array}
+     */
+    data: {
+      type: Array,
+      notify: true
+    },
+
+    /**
+     * Events associated with the series, an Array of Objects with the keys:
+     *
+     * * "time" {Number}, a unix timestamp of the event time
+     * * "id" {String}, unique id of the event
+     * * "label" {String}, the text label associated with the event
+     *
+     * Fires a "dataEvents-changed" event via the "notify" flag when the events changes, the assumption is that the chart will
+     * listen for this event.
+     *
+     * @type {Array}
+     */
+    dataEvents: {
+      type: Array,
+      notify: true
+    },
+
+    /**
+     * Unique id of this series
+     *
+     * Can only be statically configured (not data-bindable).
+     *
+     * @type {String}
+     */
+    id: {
+      type: String
+    },
+
+    /**
+     * Display name of the series, defaults to id
+     *
+     * Can only be statically configured (not data-bindable).
+     *
+     * @type {String}
+     */
+    name: {
+      type: String
+    },
+
+    /**
+     * The width of the line for this series
+     *
+     * Can only be statically configured (not data-bindable).
+     *
+     * @type {Number}
+     * @default 1
+     */
+    lineWidth : {
+      type: Number,
+      value: 1
+    },
+
+    /**
+     * Config for each plotted point on the line
+     *
+     *    <px-chart-series marker='{"enabled": false, "radius": 15}'
+     *
+     * Can only be statically configured (not data-bindable).
+     *
+     * @type {Object}
+     */
+    marker : {
+      type: Object,
+      value: {
+        enabled : false,
+        radius : 2
+      }
+    },
+
+    /**
+     * Config for the tooltip for each point
+     *
+     *     <px-chart-series id="my-series" tooltip='{"valueDecimals": 3}' ...
+     *
+     * Can only be statically configured (not data-bindable).
+     *
+     * @type {Object}
+     */
+    tooltip: {
+      type: Object,
+      value: {
+        valueDecimals: 2
+      }
+    },
+
+    /**
+     * Optional object that contains members that map to #name and #data via the seriesObjDataKey and seriesObjNameKey,
+     *
+     * e.g. seriesObj[seriesObjDataKey] and seriesObj[seriesObjNameKey]
+     *
+     * @type {Object}
+     */
+    seriesObj: {
+      type: Object,
+      observer: 'seriesObjObserver'
+    },
+
+    /**
+     * Key in the optional seriesObj to be used for #data
+     *
+     * Can only be statically configured (not data-bindable).
+     *
+     * @type {String}
+     * @default "series"
+     */
+    seriesObjDataKey: {
+      type: String,
+      value: 'series'
+    },
+
+    /**
+     * Key in the optional seriesObj to be used for #name
+     *
+     * Can only be statically configured (not data-bindable).
+     *
+     * @type {String}
+     * @default "name"
+     */
+    seriesObjNameKey: {
+      type: String,
+      value: 'name'
+    },
+
+    /**
+     * Key in the optional seriesObj to be used for #events
+     *
+     * Can only be statically configured (not data-bindable).
+     *
+     * @type {String}
+     * @default "events"
+     */
+    seriesObjDataEventsKey: {
+      type: String,
+      value: 'events'
+    },
+
+    /**
+     * Optional declaration of which y axis id this series should be plotted against, if more than one.
+     *
+     * Can only be statically configured (not data-bindable).
+     *
+     * @type {String}
+     */
+    axisId: {
+      type: String
+    },
+
+    /**
+     * Optional. Upper value beyond which the data should be shown as "above threshold".
+     *
+     * Can only be statically configured (not data-bindable).
+     *
+     * @type {Number}
+     */
+    upperThreshold: {
+      type: Number
+    },
+
+    /**
+     * Optional. Lower value beyond which the data should be shown as "above threshold".
+     *
+     * Can only be statically configured (not data-bindable).
+     *
+     * @type {Number}
+     */
+    lowerThreshold: {
+      type: Number
+    }
+
+    /**
+     * Whether to show this series in the navigator. Default behavior if this property is not set is that the first
+     * series of the chart is shown unless this flag is set to override.
+     *
+     * @type {Boolean}
+     TODO: implement...but confused by how series are added to the navigator...
+    showInNavigator: {
+      type: Boolean
+    }
+     */
+  },
+
+  /**
+   * Lifecycle callback to look for and register iron-ajax elements configured inside the series.  Note that doing so is
+   * only one way to populate the series with data.  You can always set the 'data' or 'series-obj' attributes/properties
+   * directly from outside this component.
+   */
+  ready: function() {
+    this.fire("series-ready");
+    this.seriesReady = true;
+
+    //Fire ajax requests, if configured...TODO: make this more declarative, but don't know how to get 'on-response' event declaration of handler to call a function on this parent comp.
+    var ironAjaxEl = Polymer.dom(this.root).querySelector("iron-ajax");
+    if (ironAjaxEl) {
+      this.fireAjax(ironAjaxEl);
+    }
+  },
+
+  /**
+   * @private
+   */
+  fireAjax: function(ironAjaxEl) {
+    var _this = this;
+    var fireFn = function(ironAjaxEl) {
+      if (ironAjaxEl.generateRequest && ironAjaxEl.activeRequests) {
+        ironAjaxEl.addEventListener("response", function(evt) {
+          _this.seriesObj = evt.detail.response;
+        });
+        ironAjaxEl.generateRequest();
+      }
+      else {
+        setTimeout(function() {fireFn(ironAjaxEl)}, 100);
+      }
+    };
+    fireFn(ironAjaxEl);
+  },
+
+  /**
+   * Observer on the 'seriesObj' property. When called will look at new seriesObj and set the 'data' and 'name'
+   * values via the configured 'seriesObjDataKey' and 'seriesObjNameKey'
+   *
+   * @param newObj
+   * @param oldObj
+   *
+   * @private
+   */
+  seriesObjObserver: function(newObj, oldObj) {
+    if (!newObj) {
+      this.data = null;
+    }
+    else {
+      if (newObj[this.seriesObjNameKey]) {
+        this.name = newObj[this.seriesObjNameKey];
+      }
+      this.data = newObj[this.seriesObjDataKey];
+      if (newObj[this.seriesObjDataEventsKey]) {
+        this.dataEvents = newObj[this.seriesObjDataEventsKey];
+      }
+    }
+  },
+
+  /**
+   * Builds a returns an object to be passed into highcharts for this series
+   *
+   * @return {Object}
+   *
+   * @private
+   */
+  buildConfig: function() {
+    var config = {};
+    var props = this.properties;
+    var _this = this;
+    Object.keys(props).forEach(function(key) {
+      if (props.hasOwnProperty(key) && key !== "seriesObj" && typeof _this[key] !== "undefined") {
+        config[key] = _this[key];
+      }
+    });
+
+    //backfill a few things highcharts expects
+    if (typeof config.name === "undefined") {
+      config.name = config.id;
+    }
+    config.type = 'column';
+
+    return config;
+  }
+
+
+
+});
+
+</script>

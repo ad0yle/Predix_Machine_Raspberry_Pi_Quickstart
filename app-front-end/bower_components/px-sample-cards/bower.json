@@ -1,0 +1,38 @@
+{
+  "name": "px-sample-cards",
+  "version": "0.1.13",
+  "main": [
+    "px-sample-cards.html"
+  ],
+  "ignore": [
+    ".*",
+    "npm-debug.log",
+    "Gruntfile.js",
+    "sass",
+    "bower_components",
+    "node_modules",
+    "test"
+  ],
+  "dependencies": {
+    "polymer": "~v1.0.3",
+    "px-theme": "https://github.com/PredixDev/px-theme.git#v0.3.15",
+    "px-chart": "https://github.com/PredixDev/px-chart.git#v1.0.14",
+    "px-rangepicker": "https://github.com/PredixDev/px-rangepicker.git#~v0.1.2",
+    "px-widget-cards": "https://github.com/PredixDev/px-widget-cards.git#v1.0.4",
+    "px-simple-line-chart": "https://github.com/PredixDev/px-simple-line-chart.git#v0.0.11",
+    "px-simple-bar-chart": "https://github.com/PredixDev/px-simple-bar-chart.git#v0.0.4",
+    "px-data-table": "https://github.com/PredixDev/px-data-table.git#v0.0.10"
+  },
+  "devDependencies": {
+    "px-card": "https://github.com/PredixDev/px-card.git#~0.1.0",
+    "px-buttons-design": "https://github.com/PredixDev/px-buttons-design.git#~0.4.12",
+    "px-layout-design": "https://github.com/PredixDev/px-layout-design.git#~0.3.7",
+    "px-spacing-design": "https://github.com/PredixDev/px-spacing-design.git#~0.3.3",
+    "px-forms-design": "https://github.com/PredixDev/px-forms-design.git#~0.3.9",
+    "px-input-group-design": "https://github.com/PredixDev/px-input-group-design.git#~0.2.7",
+    "px-defaults-design": "https://github.com/PredixDev/px-defaults-design.git#~0.2.4",
+    "px-starter-kit-design": "https://github.com/PredixDev/px-starter-kit-design.git#~0.4.5",
+    "px-toggle-design": "https://github.com/PredixDev/px-toggle-design.git#~0.2.6",
+    "px-headings-design": "https://github.com/PredixDev/px-headings-design.git#~0.2.8"
+  }
+}

@@ -1,0 +1,33 @@
+{
+    "name": "px-datasource",
+    "version": "1.1.3",
+    "authors": [
+        "Predix Experience"
+    ],
+    "description": "Restful communication brought to you by Predix",
+    "main": "dist/px-datasource.min.js",
+    "moduleType": [
+        "amd"
+    ],
+    "keywords": [
+        "predix"
+    ],
+    "ignore": [
+        ".jshintrc",
+        ".gitignore",
+        ".travis.yml",
+        "config.js",
+        "Gruntfile.js",
+        "package.json",
+        "build",
+        ".editorconfig"
+    ],
+    "dependencies": {
+        "angular": "~1.3",
+        "restangular": "~1.4"
+    },
+    "devDependencies": {
+        "almond": "latest"
+    },
+    "license": "MIT"
+}

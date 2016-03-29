@@ -1,0 +1,10 @@
+# Main mBSA core comms info.
+rtcclient.transport.id = com.prosyst.mbsa.transport.tcp
+rtcclient.transport.data = 127.0.0.1:5670
+
+# Second mBSA core comms info.
+rtcclient.transport.second.id = com.prosyst.mbsa.transport.tcp
+rtcclient.transport.second.data = 127.0.0.1:5671
+
+# Timeout in milliseconds for sending message.
+rtcclient.sendmsg.timeout = 30000

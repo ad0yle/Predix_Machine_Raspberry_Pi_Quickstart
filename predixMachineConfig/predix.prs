@@ -1,0 +1,40 @@
+#
+# This file contains "system" properties, that are specific to JDK virtual machine.
+# The file ../../machine/bin/vms/common.prs contains properties, that enable or disable
+# some of the framework features, or controls the behavior of certain
+# modules. These are properties a device may want to configure but unlike other
+# configuration files, they are only applied on the re-start of the container.
+#
+
+# System wide proxy settings for the JDK http connection methods. 
+#http.proxyHost=proxy-src.research.ge.com
+#https.proxyHost=proxy-src.research.ge.com
+#http.proxyPort=8080
+#https.proxyPort=8080
+
+# Felix File Install
+felix.fileinstall.poll=1000
+felix.fileinstall.dir=../../../../configuration/machine
+felix.fileinstall.log.level=2
+felix.fileinstall.noInitialDelay=true
+felix.fileinstall.tmpdir=./storage/tmp
+felix.fileinstall.enableConfigSave=true
+felix.fileinstall.filter = .*\\.(cfg|config|xml)
+
+# Pax Logging
+org.ops4j.pax.logging.DefaultServiceLog.level=WARN
+org.ops4j.pax.logging.logdir=../../../../logs/machine
+
+# HTTP server properties
+org.osgi.service.http.port=8181
+org.apache.felix.http.jettyEnabled=true
+org.apache.felix.http.whiteboardEnabled=true
+
+# HTTPS server properties
+# Felix HTTP keystores/truststores must be configured in security/com.ge.dspmicro.securityadmin.cfg
+org.osgi.service.http.port.secure=8443
+
+# Turn on Prosyst debug for bundles. This can help in debugging permissions.perm files. 
+# The log message before the permission exception says which bundle is failing.
+#mbs.debug=5
+#mbs.debug=10

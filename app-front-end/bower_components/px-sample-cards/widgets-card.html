@@ -1,0 +1,143 @@
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="../px-widget-cards/px-twoup.html"/>
+<link rel="import" href="../px-simple-bar-chart/px-simple-bar-chart.html"/>
+<link rel="import" href="../px-simple-line-chart/px-simple-line-chart.html"/>
+
+<dom-module id="widgets-card">
+    <link rel="import" type="css" href="css/widgets-card.css"/>
+    <template>
+        <px-twoup id="sample-card-twoup" widget-header="Widgets">
+            <div class="widget-1">
+                <h1 class="epsilon">Output vs. Capacity</h1>
+                <div class="flex">
+                    <div class="flex">
+                        <div class="large-value">987</div>
+                        <div class="flex flex--col u-ml-">
+                            <small class="caps">Output</small>
+                            <small class="caps muted">mw</small>
+                        </div>
+                    </div>
+
+                    <div class="u-ml+ flex">
+                        <div class="large-value">1010</div>
+                        <div class="flex flex--col u-ml-">
+                            <small class="caps">Capacity</small>
+                            <small class="caps muted">mw</small>
+                        </div>
+                    </div>
+                </div>
+
+                <px-simple-line-chart
+                        id="demo-line-chart"
+                        line-data="{{outputCapacityData}}"
+                        threshold="100"
+                        columns="8"
+                        rows="8"
+                        min="1"
+                        max="150"
+                        min-label="false"
+                        max-label="false">
+                </px-simple-line-chart>
+
+                <div>
+                    <small class="muted">Past 7 Days</small>
+                </div>
+            </div>
+
+            <div class="widget-2">
+
+                <h1 class="epsilon">Open Cases</h1>
+
+                <div class="muted">Current Count</div>
+                <px-simple-bar-chart
+                        id="open-cases"
+                        chart-data="{{openCasesData}}">
+                </px-simple-bar-chart>
+
+                <div>
+                    <small class="muted">Past 8 Weeks</small>
+                </div>
+            </div>
+
+        </px-twoup>
+    </template>
+</dom-module>
+<script>
+    Polymer({
+        is: 'widgets-card',
+        behaviors: [px.card],
+        properties: {
+            data: {
+                type: Object
+            }
+        },
+        created: function(){
+            //default data
+            this.data = {}
+        },
+        init: function () {
+            //use hard code data if not provided from attributes
+            this.openCasesData = this.data.openCasesData || [
+                [1, 0, 2, 0, 3, 0, 5, 0],
+                [1, 0, 4, 5, 1, 6, 0, 5],
+                [4, 7, 6, 3, 2, 3, 2, 3],
+                [2, 4, 0, 0, 2, 4, 1, 0],
+                [2, 0, 0, 2, 1, 0, 0, 2]
+            ];
+
+            this.outputCapacityData = this.data.outputCapacityData || [
+                [1397100000000, 120],
+                [1397110000000, 118],
+                [1397120000000, 120],
+                [1397130000000, 120],
+                [1397140000000, 120],
+                [1397150000000, 120],
+                [1397160000000, 106],
+                [1397170000000, 100],
+                [1397180000000, 120],
+                [1397190000000, 110],
+                [1397200000000, 120],
+                [1397210000000, 118],
+                [1397220000000, 120],
+                [1397230000000, 116],
+                [1397240000000, 120],
+                [1397250000000, 120],
+                [1397260000000, 105],
+                [1397270000000, 98],
+                [1397280000000, 120],
+                [1397290000000, 120],
+                [1397300000000, 120],
+                [1397310000000, 116],
+                [1397320000000, 110],
+                [1397330000000, 118],
+                [1397340000000, 101],
+                [1397350000000, 110],
+                [1397360000000, 115],
+                [1397370000000, 109],
+                [1397380000000, 100],
+                [1397390000000, 98],
+                [1397400000000, 96],
+                [1397410000000, 115],
+                [1397420000000, 120],
+                [1397430000000, 125],
+                [1397440000000, 120],
+                [1397450000000, 123],
+                [1397460000000, 119],
+                [1397470000000, 98],
+                [1397480000000, 120],
+                [1397490000000, 120],
+                [1397500000000, 120],
+                [1397510000000, 118],
+                [1397520000000, 120],
+                [1397530000000, 120],
+                [1397540000000, 120],
+                [1397550000000, 120],
+                [1397560000000, 106],
+                [1397570000000, 100],
+                [1397580000000, 120],
+                [1397590000000, 110],
+                [1397600000000, 120]
+            ];
+        }
+    });
+</script>

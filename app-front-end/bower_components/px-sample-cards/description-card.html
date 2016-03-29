@@ -1,0 +1,22 @@
+<link href="../polymer/polymer.html" rel="import"/>
+<link href="../px-card/px-card.html" rel="import"/>
+
+<dom-module id="description-card">
+  <link rel="import" type="css" href="css/px-sample-cards.css" />
+  <template>
+    <px-card header-text="{{head}}">
+        <p>{{body}}</p>
+        <a target="_blank" href="{{repoUrl}}" class="btn btn--large">
+          <i class="fa fa-github"></i>
+          Github Repo
+        </a>
+      </div>
+    </px-card>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'description-card',
+    behaviors: [px.card]
+  });
+</script>

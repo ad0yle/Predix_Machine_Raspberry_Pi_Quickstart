@@ -1,0 +1,92 @@
+<!doctype html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="http://faviconist.com/icons/deb05d00a29ec744569f679f21140ba8/favicon.ico" />
+        <title>px-simple-line-chart Demo</title>
+        <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+        <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+        <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+        <link rel="import" href="../iron-ajax/iron-ajax.html"/>
+        <link rel="import" href="../px-slider/px-slider.html"/>
+        <link rel="import" href="../px-theme/px-theme.html"/>
+        <link rel="import" href="px-simple-line-chart.html"/>
+        <style>
+            body, html {
+                padding: 0.5%;
+            }
+            .control {
+                width: 300px; float: left; margin: 10px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <template id="just-for-demo" is="dom-bind">
+
+            <div class="control">
+                <label>Width:</label>
+                <px-slider
+                    value="{{width}}"
+                    min="200"
+                    max="1000">
+                </px-slider>
+            </div>
+            <div class="control">
+                <label>Height:</label>
+                <px-slider
+                    value="{{height}}"
+                    min="100"
+                    max="550">
+                </px-slider>
+            </div>
+            <div class="control">
+                <label>Rows:</label>
+                <px-slider
+                    value="{{rows}}"
+                    min="2"
+                    max="50">
+                </px-slider>
+            </div>
+            <div class="control">
+                <label>Columns:</label>
+                <px-slider
+                    value="{{columns}}"
+                    min="2"
+                    max="50">
+                </px-slider>
+            </div>
+
+            <br clear="both"/>
+            <br />
+            <br />
+
+            <px-simple-line-chart
+                id="demo-line-chart"
+                width="{{width}}"
+                height="{{height}}"
+                columns="{{columns}}"
+                rows="{{rows}}"
+                min="-1"
+                max="1"
+                threshold="0"
+                >&hearts;</px-simple-line-chart>
+
+        <script>
+            var chart = Polymer.dom(document).querySelector('#demo-line-chart');
+            var lineData = [ [(new Date()).getTime(), Math.random()] ];
+
+            chart.lineData = lineData;
+            setInterval(function() {
+                var point = [(new Date()).getTime(), (Math.random() * 1.4) - 0.8]
+                console.log('adding point ' + JSON.stringify(point));
+                chart.addPoint(point);
+            }, 150);
+        </script>
+
+        </template>
+    </body>
+</html>

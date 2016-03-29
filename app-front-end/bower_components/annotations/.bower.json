@@ -1,0 +1,14 @@
+{
+  "name": "annotations",
+  "homepage": "https://github.com/blacklabel/annotations",
+  "version": "1.2.8",
+  "_release": "1.2.8",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.2.8",
+    "commit": "03aad51f9107ae0b1ea4bfcefc044363a43c3b5c"
+  },
+  "_source": "https://github.com/blacklabel/annotations.git",
+  "_target": "~1.2.6",
+  "_originalSource": "https://github.com/blacklabel/annotations.git"
+}

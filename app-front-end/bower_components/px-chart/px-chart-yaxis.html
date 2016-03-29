@@ -1,0 +1,266 @@
+<link rel="import" href="../polymer/polymer.html"/>
+
+<!--
+Element to define y-axis configuration.
+
+Maps to Highcharts yaxis config, see docs at http://api.highcharts.com/highcharts#yAxis
+
+##### Usage
+
+    <px-chart-yaxis attr-1="..." attr-2="..."></px-chart-yaxis>
+
+@demo demo.html
+-->
+<dom-module id="px-chart-yaxis">
+
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'px-chart-yaxis',
+
+    /**
+     * Properties block, expose attribute values to the DOM via 'reflect'
+     *
+     * @property properties
+     * @type Object
+     */
+    properties: {
+
+      /**
+       * Unique id of this axis, primarily for associating series to it
+       *
+       * Can only be statically configured (not data-bindable).
+       *
+       * @type {String}
+       */
+      id: {
+        type: String
+      },
+
+      /**
+       * http://api.highcharts.com/highcharts#yAxis.lineColor
+       *
+       * Can only be statically configured (not data-bindable).
+       */
+      lineColor: {
+        type: String
+      },
+
+      /**
+       * http://api.highcharts.com/highcharts#yAxis.lineWidth
+       *
+       * Can only be statically configured (not data-bindable).
+       */
+      lineWidth: {
+        type: Number
+      },
+
+      /**
+       * http://api.highcharts.com/highcharts#yAxis.min
+       *
+       * Can only be statically configured (not data-bindable).
+       *
+       * @type {Number}
+       */
+      min: {
+        type: Number
+      },
+
+      /**
+       * http://api.highcharts.com/highcharts#yAxis.max
+       *
+       * Can only be statically configured (not data-bindable).
+       *
+       * @type {Number}
+       */
+      max: {
+        type: Number
+      },
+
+      /**
+       * http://api.highcharts.com/highcharts#yAxis.gridLineWidth
+       *
+       * Can only be statically configured (not data-bindable).
+       */
+      gridLineWidth: {
+        type: Number
+      },
+
+      /**
+       * http://api.highcharts.com/highcharts#yAxis.tickInterval
+       *
+       * Can only be statically configured (not data-bindable).
+       */
+      tickInterval: {
+        type: Number
+      },
+
+      /**
+       * http://api.highcharts.com/highcharts#yAxis.dateTimeLabelFormats
+       *
+       * Can only be statically configured (not data-bindable).
+       */
+      dateTimeLabelFormats: {
+        type: Object
+      },
+
+      /**
+       * http://api.highcharts.com/highcharts#yAxis.offset
+       *
+       * Can only be statically configured (not data-bindable).
+       */
+      offset: {
+        type: Number,
+        value: 0
+      },
+
+      /**
+       * http://api.highcharts.com/highcharts#yAxis.startOnTick
+       *
+       * Can only be statically configured (not data-bindable).
+       */
+      startOnTick: {
+        type: Boolean
+      },
+
+      /**
+       * http://api.highcharts.com/highcharts#yAxis.tickColor
+       *
+       * Can only be statically configured (not data-bindable).
+       */
+      tickColor: {
+        type: String
+      },
+
+      /**
+       * http://api.highcharts.com/highcharts#yAxis.tickWidth
+       *
+       * Can only be statically configured (not data-bindable).
+       */
+      tickWidth: {
+        type: Number,
+        value: 1
+      },
+
+      /**
+       * http://api.highcharts.com/highcharts#yAxis.type
+       *
+       * Can only be statically configured (not data-bindable).
+       *
+       * @type {String}
+       */
+      type: {
+        type: String
+      },
+
+      /**
+       * http://api.highcharts.com/highcharts#yAxis.title
+       *
+       * Can only be statically configured (not data-bindable).
+       */
+      title: {
+        type: Object,
+        value: function() {
+          return { }
+        },
+        notify: true
+      },
+
+      /**
+       * http://api.highcharts.com/highcharts#yAxis.labels
+       *
+       * Can only be statically configured (not data-bindable).
+       */
+      labels: {
+        type: Object,
+        value: {
+          style: {
+            fontSize: '0.8rem',
+            color: "#000000"
+          },
+          y: 5
+        }
+      },
+      yAxis : {
+        lineColor : "#3b3b3f"
+      },
+      /**
+       * http://api.highcharts.com/highcharts#yAxis.opposite
+       *
+       * Can only be statically configured (not data-bindable).
+       */
+      opposite: {
+        type: Boolean,
+        value: false
+      },
+
+      /**
+       * List of property names in the axis config that should be given a default color (based on the index of this axis as
+       * passed from the containing chart).
+       *
+       * Can only be statically configured (not data-bindable).
+       *
+       * @type {Array}
+       * @default ["tickColor", "lineColor"]
+       */
+      defaultColorProps: {
+        type: Array,
+        value: ["tickColor", "lineColor"]
+      }
+    },
+
+    /**
+     * Ready callback fires a "y-axis-ready" event that the containing chart object can be used to configure itself.
+     */
+    ready: function() {
+      this.fire("y-axis-ready");
+      this.axisReady = true;
+    },
+
+    /**
+     * Builds a returns an object to be passed into highcharts for this axis
+     *
+     * @param {String} defaultColor. Optional. Color to which to default the axis defaultColorProps
+     * @return {Object}
+     *
+     * @private
+     */
+    buildConfig: function(defaultColor) {
+      var config = {};
+      var props = this.properties;
+      var _this = this;
+      Object.keys(props).forEach(function(key) {
+        if (props.hasOwnProperty(key) && key !== "type" && typeof _this[key] !== "undefined") {
+          config[key] = _this[key];
+        }
+      });
+
+      if (defaultColor) {
+        this.addDefaultColorsByIndex(config, defaultColor);
+      }
+      return config;
+    },
+
+    /**
+     * In Highcharts, there is an Array that maps series indices to colors so that series lines and axes labels/ticks/etc
+     * can be the same color. This function does the mapping based on passed values from the chart itself, since the axis
+     * element doesn't know what index it is in the configuration.
+     *
+     * @param {Object} config Axis config object being built
+     * @param {String} color Hex color to be filled in for each undefined property in the config that appears in this.defaultColorProps
+     *
+     * @private
+     */
+    addDefaultColorsByIndex: function(config, color) {
+      this.defaultColorProps.forEach(function(propName) {
+        if (!config[propName]) {
+          config[propName] = color;
+        }
+      });
+    }
+  });
+
+
+</script>

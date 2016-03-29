@@ -1,0 +1,288 @@
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="aha-table.html">
+<link rel="import"
+      href="px-data-table-column.html"> <!-- don't want users to have to import table-column as well as table -->
+
+<!--
+Element that defines a data table, optionally using a sub-element for advanced column settings.
+
+##### Usage
+
+Minimum:
+
+    <px-data-table table-data="{{data}}"></px-data-table>
+
+Advanced:
+
+    <px-data-table filterable selectable table-data="{{data}}"></px-data-table>
+
+    <px-data-table selected-rows="{{mySelectedRows}}" filterable selectable striped table-data="{{data}}">
+      <px-data-table-column
+        name="first"
+    		sortable
+        filter-function-name="filterWholeWord"
+        sort-function-name="sortByEmailDomain">
+      </px-data-table-column>
+      <px-data-table-column name="last" ...></px-data-table-column>
+      <px-data-table-column name="color" ...></px-data-table-column>
+      <px-data-table-column name="date" ...></px-data-table-column>
+    </px-data-table>
+
+
+##### Integrating with other frameworks (ex: Angular):
+
+You may not be able to use 2-way binding with the objects/arrays in other frameworks such as Angular.
+
+We suggest instead to use events and selectors, for example:
+
+    document.getElementById("myDataTable").addEventListener("px-row-click", function(e) {
+        ...
+    });
+
+    document.getElementById("myDataTable").addEventListener("px-select-all-click", function(e) {
+        ...
+    });
+
+    $scope.doSomethingWithSelectedRows = function() {
+        $scope.allSelectedRows = document.getElementById("myDataTable").selectedRows;
+    };
+
+Events:
+
+- px-row-click : fired when table row is clicked (selected or unselected)
+
+      document.getElementById("mytable").addEventListener("px-row-click", function(e) {
+        var clickedRow = e.detail.row;
+        console.log("Row clicked", clickedRow, " _selected: ", clickedRow._selected);
+      });
+
+- px-select-all-click : fired when the select all button is clicked (selected or unselected)
+
+      document.getElementById("mytable").addEventListener("px-select-all-click", function(e) {
+        var allSelectedRows = e.detail;
+        console.log("Select/unselect all", allSelectedRows);
+      });
+
+@demo demo.html
+-->
+<dom-module id="px-data-table">
+  <link rel="import" type="css" href="css/px-data-table.css"/>
+
+  <template>
+    <div class="flex">
+      <aha-table data="{{tableData}}"
+                 filterable="{{filterable}}"
+                 striped="{{striped}}"
+                 table-columns="{{tableColumns}}"
+                 table-rows="{{tableRows}}"
+                 selectable="{{selectable}}"
+                 selected-rows="{{selectedRows}}"
+                 meta="{{meta}}"
+                 custom-functions="{{customFunctions}}"
+                 id="dataTable">
+      </aha-table>
+    </div>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'px-data-table',
+
+    properties: {
+
+      /**
+       * Data for the table to display.
+       *
+       * Expected data format is just a json array.  Each object in the array represents a row in the table.
+       *
+       * Each item in an object will be displayed as a separate column, unless px-data-table-columns are defined to limit which columns are displayed.
+       *
+       *     <px-data-table table-data="{{data}}"></px-data-table>
+       *
+       *     [
+       *       {
+       *        "index": 0,
+       *        "name": "Liz Grimes",
+       *        "image": "https://s3.amazonaws.com/uifaces/faces/twitter/enda/73.jpg",
+       *        "date": "Sun Aug 14 1994 03:27:03 GMT-0700 (PDT)"
+       *      },
+       *      {
+       *        "index": 1,
+       *        "name": "Frazier Lara",
+       *        "image": "https://s3.amazonaws.com/uifaces/faces/twitter/guillogo/73.jpg",
+       *        "date": "Tue May 24 1988 14:10:20 GMT-0700 (PDT)",
+       *      }
+       *    ]
+       */
+      tableData: {
+        type: Array,
+        value: function() {
+          return [];
+        },
+        notify: true
+      },
+
+
+      /**
+       * Use the striped attribute if the table rows are striped
+       *
+       *      <px-data-table striped table-data="{{data}}"></px-data-table>
+       *
+       * @default false
+       */
+      striped: {
+        type: Boolean,
+        value: false
+      },
+
+      /**
+       * Use the filterable attribute if the table has filtering functionality per column turned on.
+       *
+       *      <px-data-table filterable table-data="{{data}}"></px-data-table>
+       *
+       * If columns are specified with px-data-table-column, they must have a filterable attribute to be able to be filtered.
+       *
+       * @default false
+       */
+      filterable: {
+        type: Boolean,
+        value: false
+      },
+
+      /**
+       * Use the table-columns attribute if the table should be displayed as columns, instead of a grid.
+       *
+       *      <px-data-table table-columns table-data="{{data}}"></px-data-table>
+       *
+       * @default false
+       */
+      tableColumns: {
+        type: Boolean,
+        value: false
+      },
+
+      /**
+       * Use the table-rows attribute if the table should be displayed as rows, instead of a grid.
+       *
+       *      <px-data-table table-rows table-data="{{data}}"></px-data-table>
+       *
+       * @default false
+       */
+      tableRows: {
+        type: Boolean,
+        value: false
+      },
+
+      /**
+       * Use the selectable attribute if the table rows should be able to be selected.
+       *
+       *      <px-data-table selectable table-data="{{data}}"></px-data-table>
+       *
+       * @default false
+       */
+      selectable: {
+        type: Boolean,
+        value: false
+      },
+
+      /**
+       * Selected rows in the data table setup for binding.
+       *
+       * This property is read only.
+       *
+       *      <px-data-table selectedRows="{{mySelectedItems}}" table-data="{{data}}"></px-data-table>
+       *
+       */
+      selectedRows: {
+        type: Array,
+        value: function() {
+          return [];
+        },
+        notify: true
+      },
+
+      /**
+       * Custom function declarations for any custom filtering/sorting functions.
+       *
+       * These are just the declarations of the functions; to use the functions for a column you must pass in the filter-function-name / sort-function-name to px-data-table-column.
+       *
+       *      <px-data-table customFunctions="{{myCustomFunctions}}" table-data="{{data}}"></px-data-table>
+       *
+       * ```js
+       * myCustomFunctions = {
+       *   sortByEmailDomain: function(a, b) {
+       *     var aDomain = a.value.substring(a.value.indexOf("@")+1, a.value.indexOf("."));
+       *     var bDomain = b.value.substring(b.value.indexOf("@")+1, b.value.indexOf("."));
+       *     return this.descending
+       *       ? (aDomain < bDomain ? 1 : -1)
+       *        : (aDomain > bDomain ? 1 : -1);
+       *   },
+       *   filterWholeWord: function(searchString, cellValue) {
+       *     if(searchString === undefined || searchString === null || searchString === "") {
+       *       return true;
+       *     }
+       *     return (searchString.toString().toLowerCase() === cellValue.toString().toLowerCase());
+       *   }
+       * };
+       * ```
+       *
+       */
+      customFunctions: {
+        type: Object,
+        value: {}
+      }
+
+    },
+
+    /**
+     * Events:
+     *
+     * px-row-click : fired when table row is clicked (selected or unselected)
+     *
+     */
+
+    ready: function() {
+      var children = Polymer.dom(this).querySelectorAll('px-data-table-column');
+
+      if(children.length > 0) {
+        var meta = [];
+
+        // need the Selected column if the table is selectable
+        if(this.selectable) {
+          // add a selected column if selectable
+          meta.push(this.$.dataTable._generateMetaForColumn("_selected", "selected", true, "Selected"));
+        }
+
+        for(var i = 0; i < children.length; i++) {
+          var column = {};
+          for(var j = 0; j < children[i].attributes.length; j++) {
+            var attribute = children[i].attributes[j];
+
+            if(['sortable', 'filterable'].indexOf(attribute.name) >= 0) {
+              column[attribute.nodeName] = true;
+            }
+            else {
+              column[attribute.nodeName] = attribute.value;
+            }
+
+            // default the label of the columns to the capitalized name
+            if(!column['label']) {
+              var name = column['name'] || '';
+              column['label'] = name.charAt(0).toUpperCase() + name.slice(1);
+            }
+
+            // default the type of the column to a string
+            if(!column['type']) {
+              column['type'] = 'string';
+            }
+          }
+          meta.push(column);
+        }
+
+        this.set('meta', meta);
+      }
+    }
+
+  });
+</script>

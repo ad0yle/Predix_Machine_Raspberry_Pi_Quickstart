@@ -1,0 +1,42 @@
+# Directory where are the plugins libraries
+core.plugins.dir=../../../lib/mbsa/runtimes/linux/linux_arm_raspbian/plugins
+
+# Autostart list
+#core.autostart.list =
+
+# Config directory of plugins
+core.plugins.config.dir = ../../../../mbsa/bin/java/configs/linux
+
+# Log directory of plugins
+#core.plugins.log.dir = ../../../../mbsa/bin/logs/fwcore
+# GE Modified:
+core.plugins.log.dir = ../../../../logs/mbsa/fwcore
+
+### NOTE: All core.plugins.log.XXX properties are disabled, so the core.log.XXX will be used instead!
+
+# Define logs max size in kilobytes if it is exceeded then oldest log part will be deleted.
+# Zero value will indicate no logs max size limit.
+#core.plugins.log.maxsize = 250
+
+# Define log parts each log file will be with size maxsize/parts
+#core.plugins.log.parts = 2
+
+# Define log level. Levels are from 0, 1, 2, ... 
+# If you set level 2 then all logs with 0, 1 and 2 will be logged.
+core.plugins.log.level = 1
+
+# Define maximum log files per plugin. 0 = disabled
+#core.plugins.log.maxcount = 10
+
+#Enable/disable logging for plugins
+#core.plugins.log.enable = true
+
+# Notify timeout for exit of mBSA in seconds
+core.notify.exit.timeout = 300
+
+# Load plugins list
+core.load.plugin.list = mbsap.comms, mbsap.tcp, mbsap.tmclient, mbsap.rtcclient
+
+# Flag to free plugins lib or not.
+# If set to false will speedup the exit of core.
+core.free.plugins.lib = true

@@ -1,0 +1,8 @@
+-----
+This virtual machine supports the following custom parameters:
+  jdk1.4          - use JDK version 1.4
+ *jdk1.5          - use JDK version 1.5 (default)
+  jdk1.6          - use JDK version 1.6
+
+The following environment variable allows you to select the VM version:
+  VM_VERSION     = 14 | 15 | 16

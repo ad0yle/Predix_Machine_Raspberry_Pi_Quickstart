@@ -1,0 +1,17 @@
+# Use Target Manager Comms
+comms.use.tmclient = false
+
+# This property set the target type which will be registered 
+# in TargetManager it will be used only when comms is started not in core
+#comms.target.type = com.prosyst.mbsa
+
+# Enable/Disable flag for TCP transport.
+comms.tcp.transport.server.enable = true
+
+# Put here interface on which to listen. [ 127.0.0.1 | 0.0.0.0 | host IP ]
+comms.tcp.transport.server.host = 127.0.0.1
+
+# Port range on which to start listen.
+# If the ports are same only one will be used.
+comms.tcp.transport.server.port.range.start = 5670
+comms.tcp.transport.server.port.range.end   = 5671

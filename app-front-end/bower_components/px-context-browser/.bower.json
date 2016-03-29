@@ -1,0 +1,40 @@
+{
+  "name": "px-context-browser",
+  "version": "0.4.15",
+  "main": [
+    "px-context-browser.html"
+  ],
+  "ignore": [
+    ".*",
+    "npm-debug.log",
+    "Gruntfile.js",
+    "sass",
+    "bower_components",
+    "node_modules",
+    "test"
+  ],
+  "dependencies": {
+    "polymer": "~v1.0.3",
+    "px-theme": "https://github.com/PredixDev/px-theme.git#~v0.3.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#~v1.0.4",
+    "px-buttons-design": "https://github.com/PredixDev/px-buttons-design.git#~0.4.0",
+    "px-colors-design": "https://github.com/PredixDev/px-colors-design.git#~0.2.0",
+    "px-headings-design": "https://github.com/PredixDev/px-headings-design.git#~0.2.0",
+    "px-list-bare-design": "https://github.com/PredixDev/px-list-bare-design.git#~0.2.0",
+    "px-list-inline-design": "https://github.com/PredixDev/px-list-inline-design.git#~0.2.0",
+    "px-starter-kit-design": "https://github.com/PredixDev/px-starter-kit-design.git#~0.4.0",
+    "q": "~v1.2.0"
+  },
+  "homepage": "https://github.com/PredixDev/px-context-browser",
+  "_release": "0.4.15",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.4.15",
+    "commit": "be93b716c1bd1e65d26f47275df997f388a14274"
+  },
+  "_source": "https://github.com/PredixDev/px-context-browser.git",
+  "_target": "~v0.4.12",
+  "_originalSource": "https://github.com/PredixDev/px-context-browser.git"
+}

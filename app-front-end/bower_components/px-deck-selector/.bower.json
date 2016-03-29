@@ -1,0 +1,36 @@
+{
+  "name": "px-deck-selector",
+  "version": "0.0.4",
+  "main": [
+    "px-deck-selector.html"
+  ],
+  "ignore": [
+    ".*",
+    "npm-debug.log",
+    "Gruntfile.js",
+    "sass",
+    "bower_components",
+    "node_modules",
+    "test"
+  ],
+  "dependencies": {
+    "polymer": "~1.0.0",
+    "px-theme": "https://github.com/PredixDev/px-theme.git#~0.3.5"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#~v1.0.0",
+    "px-list-bare-design": "https://github.com/PredixDev/px-list-bare-design.git#~0.2.8",
+    "px-starter-kit-design": "https://github.com/PredixDev/px-starter-kit-design.git#~0.4.0",
+    "px-headings-design": "https://github.com/PredixDev/px-headings-design.git#~0.2.8"
+  },
+  "homepage": "https://github.com/PredixDev/px-deck-selector",
+  "_release": "0.0.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.4",
+    "commit": "bce4161c70131be6e5b1ce6569f62cbe20c32707"
+  },
+  "_source": "https://github.com/PredixDev/px-deck-selector.git",
+  "_target": "~v0.0.1",
+  "_originalSource": "https://github.com/PredixDev/px-deck-selector.git"
+}

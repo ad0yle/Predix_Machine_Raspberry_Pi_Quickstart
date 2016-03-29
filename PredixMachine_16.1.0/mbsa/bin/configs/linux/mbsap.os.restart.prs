@@ -1,0 +1,11 @@
+# OS Restart executable.
+#os.restart.executable = <executable>
+
+# OS Restart arguments. The iReserved parameter of IOSRestart::restart(...)
+# is added to the end of arguments as 32-bit integer.
+#os.restart.arguments = <args>
+
+# Flag to do internal restart after exec executable from config.
+# This can be used to make executable to be used for pre restart
+# sequence or in case it does not restart to do internal always.
+#os.restart.internal.follow = true

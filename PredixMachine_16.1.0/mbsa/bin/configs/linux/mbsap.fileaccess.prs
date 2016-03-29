@@ -1,0 +1,15 @@
+#To not harm security it is preferred to have configuration which
+#describes which are the folders and sub folders to which this functionality
+#have access for reading/writing.
+
+# Comma separated list of directories where File Access has read permission 
+fileaccess.read = ../../machine/bin/vms
+
+# Comma separated list of directories where File Access has write permission 
+fileaccess.write =
+
+# Comma separated list of directories where File Access has recursive read permission 
+fileaccess.read.recursive = ../../machine/bin/vms
+
+# Comma separated list of directories where File Access has recursive write permission 
+fileaccess.write.recursive =

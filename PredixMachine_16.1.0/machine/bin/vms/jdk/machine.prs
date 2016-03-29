@@ -1,0 +1,46 @@
+#
+# these are internal properties that must be set for a predix machine.
+#
+
+# Buffer must be set for pax logging.
+mbs.syspackages=com.prosyst.util.log.buffer; version=1.0
+
+# GE copyright printed after ProSyst copyright.
+mbs.copyright=\n\nCopyright (c) 2012-2016 General Electric Company. All rights reserved. \
+    \n\t The copyright to the computer software herein is the property of \
+    \n\t General Electric Company. The software may be used and/or copied only \
+    \n\t with the written permission of General Electric Company or in accordance \
+    \n\t with the terms and conditions stipulated in the agreement/contract \
+    \n\t under which the software has been supplied. \
+    \n\t Starting Predix Machine version 16.1.0 \n\n
+
+
+# If true variables in permssions.perm files will be expanded. Predix needs this true.
+mbs.security.expandProperties=true
+
+# Prosyst is in conflict with com.ge.dspmicr.security.admin.ISecurityUtils features.
+#
+# The Certificate Manager service is a utility which other modules can use to check the 
+# validity of particular signer certificates against those saved in a storage of trusted certificates.
+# However, these can be different trusted stores.
+mbs.certificates=false
+
+# Indicates whether an HTTP Basic or a form-based authentication
+# will be used to log in the Web Administration Console.
+# This is required for session timeout to work on the web console. (used by fw.web.console.auth.pass)
+mbs.web.console.auth.basic=false
+
+# The auto creation of configurations property is disabled for predix since we use Felix file install.
+mbs.mtp.osgi.createConfigs=false
+
+# ProSyst will use this system property determines the multicast host for the UDP multicast discovery. Defaults to 255.0.0.0, clear to disable.
+mbs.multicast.host=
+
+# ProSyst will use this system property determines multicast port for the UDP multicast discovery. Defaults to 7777, clear to disable.
+mbs.multicast.port=
+
+# Turn off the processing of local permissions by using the mbs.disableLocalPermissions system property.
+#mbs.disableLocalPermissions=true
+
+# Turn on merge so all ini files are merged on startup verses run one after another. 
+mbs.boot.merge=true

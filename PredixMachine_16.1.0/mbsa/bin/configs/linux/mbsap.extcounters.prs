@@ -1,0 +1,45 @@
+# Configuration file for the ExtCounters plug-in
+
+# Specify if the extcounters plug-in is enabled
+# [Boolean] Default: false
+extcounters.enabled = false
+
+# Time (milliseconds) to wait for the external process to finish
+# [Integer] Default: 30000
+extcounters.process_timeout = 30000
+
+# OS Restart
+# extcounters.1.name = os_restart
+# extcounters.1.exec = 
+# extcounters.1.args = 
+# extcounters.1.working_dir = 
+
+# MBS Restart
+# extcounters.2.name = mbs_restart
+# extcounters.2.exec = 
+# extcounters.2.args = 
+# extcounters.2.working_dir = 
+
+# MBS Watchdog
+# extcounters.3.name = wd_mbs
+# extcounters.3.exec = 
+# extcounters.3.args = 
+# extcounters.3.working_dir = 
+
+# CPU Watchdog
+# extcounters.4.name = wd_cpu
+# extcounters.4.exec = 
+# extcounters.4.args = 
+# extcounters.4.working_dir = 
+
+# Memory Watchdog
+# extcounters.5.name = wd_mem
+# extcounters.5.exec = 
+# extcounters.5.args = 
+# extcounters.5.working_dir = 
+
+# Process Count Watchdog
+# extcounters.6.name = wd_proc_count
+# extcounters.6.exec = 
+# extcounters.6.args = 
+# extcounters.6.working_dir = 

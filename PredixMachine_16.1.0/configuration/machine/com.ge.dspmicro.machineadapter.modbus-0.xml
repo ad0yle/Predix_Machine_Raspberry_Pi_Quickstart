@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<modbusMachineAdapterConfig>
+  <name>Modbus Machine Adapter</name>
+  <description>Onsite monitor modbus nodes</description>
+  <dataNodeConfigs>
+    <channel protocol="TCP_IP" tcpIpAddress="127.0.0.1" tcpIpPort="502">
+    <unit id="1">
+      <register name="tag1" dataType="FLOAT" address="0" registerType="HOLDING" description="temperature"/>
+    </unit>
+    </channel>
+  </dataNodeConfigs>
+
+  <!-- Both updateInterval and startPointOffset are in seconds. If startPointOffset == -1, it will start immediately -->
+  <dataSubscriptionConfigs>
+    <dataSubscriptionConfig name="Turbine_Subscription" updateInterval="1" startPointUnit="MINUTES" startPointOffset="-1">
+      <nodeName>tag1</nodeName>
+    </dataSubscriptionConfig>
+  </dataSubscriptionConfigs>
+</modbusMachineAdapterConfig>

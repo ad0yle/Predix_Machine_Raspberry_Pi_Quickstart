@@ -1,0 +1,39 @@
+{
+  "name": "px-rangepicker",
+  "version": "0.1.3",
+  "main": [
+    "px-rangepicker.html"
+  ],
+  "ignore": [
+    ".*",
+    "npm-debug.log",
+    "Gruntfile.js",
+    "sass",
+    "bower_components",
+    "node_modules",
+    "test"
+  ],
+  "dependencies": {
+    "moment": "~2.10.6",
+    "polymer": "~1.2.3",
+    "px-theme": "https://github.com/PredixDev/px-theme.git#~0.4.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#~v1.1.0",
+    "px-buttons-design": "https://github.com/PredixDev/px-buttons-design.git#~0.4.0",
+    "px-forms-design": "https://github.com/PredixDev/px-forms-design.git#~0.3.0",
+    "px-list-bare-design": "https://github.com/PredixDev/px-list-bare-design.git#~0.2.0",
+    "px-starter-kit-design": "https://github.com/PredixDev/px-starter-kit-design.git#~0.4.0",
+    "px-tables-design": "https://github.com/PredixDev/px-tables-design.git#~0.3.0"
+  },
+  "homepage": "https://github.com/PredixDev/px-rangepicker",
+  "_release": "0.1.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.1.3",
+    "commit": "81bb4f01770eb156988998bb9413509fe5e4c222"
+  },
+  "_source": "https://github.com/PredixDev/px-rangepicker.git",
+  "_target": "~v0.1.2",
+  "_originalSource": "https://github.com/PredixDev/px-rangepicker.git"
+}

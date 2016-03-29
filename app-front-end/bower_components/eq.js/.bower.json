@@ -1,0 +1,44 @@
+{
+  "name": "eq.js",
+  "version": "1.7.1",
+  "authors": [
+    "Sam Richard <snugug@gmail.com>"
+  ],
+  "description": "Element queries, fast and light",
+  "main": "dist/eq.min.js",
+  "keywords": [
+    "Element Queries",
+    "Responsive Web Design",
+    "JavaScript",
+    "RWD"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "Gemfile",
+    "Gemfile.lock",
+    "Gruntfile.js",
+    "bower.json",
+    "css",
+    "index.html",
+    "package.json",
+    "sass/style.scss"
+  ],
+  "devDependencies": {
+    "polyfill-service": "https://github.com/Financial-Times/polyfill-service.git#1.5.0"
+  },
+  "homepage": "https://github.com/Snugug/eq.js",
+  "_release": "1.7.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.7.1",
+    "commit": "58dd291eb844e40e3756ccd169691e19db937e9b"
+  },
+  "_source": "https://github.com/Snugug/eq.js.git",
+  "_target": "~1.7.0",
+  "_originalSource": "eq.js"
+}

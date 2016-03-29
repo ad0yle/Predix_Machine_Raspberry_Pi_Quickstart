@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<elements version="2">
+  <element type="com.prosyst.tools.builder.description">
+    <attribute type="bool" value="true" name="com.prosyst.tools.builder.includemBSA"/>
+    <attribute type="bool" value="false" name="com.prosyst.tools.builder.includeTooling"/>
+    <attribute type="string" value="predixmachine" name="name"/>
+    <attribute type="bool" value="false" name="include.test.environment"/>
+    <element type="com.prosyst.tools.builder.script">
+      <attribute type="string" value="JDK/JRE: Java(TM) 2 and higher" name="com.prosyst.tools.builder.nameAttribute"/>
+      <attribute type="string" value="bin/vms/jdk" name="com.prosyst.tools.builder.jvmComponent.scriptDir"/>
+      <attribute type="string" value="jdk" name="com.prosyst.tools.builder.idAttribute"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:javax.servlet-api:3.1.0">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:osgi.cmpn:5.0.0.201305092017">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.core.api:1.0.2">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.core.threads:1.0.2">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.core.db:1.0.2">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.osgi.eventadmin:1.0.8">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.osgi.metatype.bundle:1.0.8">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.osgi.cm.bundle:1.0.8">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.util.api:1.0.0">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.osgi.api:1.0.8">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.osgi.compendium.extension:1.0.8">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.eclipsesource.jaxrs.jersey-all:2.10.1">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.validateroute-api:16.1.0.SNAPSHOT">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.river-api:16.1.0.SNAPSHOT">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:bcprov:1.52.0">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="machinegateway.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:bcpkix:1.52.0">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="machinegateway.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.commons.lang:2.6.0">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="1" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.felix.fileinstall:3.5.0">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="2" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.osgi.useradmin:1.0.8">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="2" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.ops4j.pax.logging.pax-logging-api:1.8.3">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="3" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.ops4j.pax.logging.pax-logging-service:1.8.3">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="3" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.system.bundle:1.0.0">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="3" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.securityadmin:16.1.0.SNAPSHOT">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="3" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.felix.dependencymanager:4.1.0">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.felix.http.bundle:2.3.2">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.osgi.scr:1.0.8">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.servicemix.specs.activation-api-1.1:1.9.0">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.servicemix.specs.stax-api-1.0:1.9.0">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.servicemix.specs.jaxb-api-2.2:1.9.0">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.device-common:16.1.0.SNAPSHOT">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:jackson-core-asl:1.9.13">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:jackson-mapper-asl:1.9.13">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.osgi.commands:1.0.8">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.core.commands:1.0.2">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.httpcomponents.httpcore:4.4.1">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:jackson-jaxrs:1.9.13">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.eclipsesource.jaxrs.provider.security:2.0.0.201407081443">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.eclipsesource.jaxrs.provider.multipart:2.0.0.201407081443">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.jaxrs-entityprovider-json:16.1.0.SNAPSHOT">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.machinegateway-api:16.1.0.SNAPSHOT">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="machinegateway.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.webconsolebranding:16.1.0.SNAPSHOT">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="4" name="startLevel"/>
+      <attribute type="string" value="webconsole.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.eclipsesource.jaxrs.publisher:4.1.0.201407081443">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.core.console:1.0.2">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.kxml2:2.3.0.prosyst2">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.commons.io:2.4.0">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.httpcomponents.httpclient:4.4.1">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.servicemix.bundles.jaxb-impl:2.2.1.1_2">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.json:20131018.0.0.prosyst1">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.h2:1.4.185">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.modelregistry:16.1.0.SNAPSHOT">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.hoover-api:16.1.0.SNAPSHOT">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="machinegateway.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:javax.websocket-api:1.0.0">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.wsclient-proxy:16.1.0.SNAPSHOT">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.wsclient-proxyfragment:16.1.0.SNAPSHOT">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.eclipse.jetty.websocket.api:9.2.1.v20140609">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.felix.webconsole:4.2.14">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="webconsole.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.felix.webconsole.plugins.event:1.1.2">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="webconsole.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.felix.webconsole.plugins.packageadmin:1.0.0">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="webconsole.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.felix.webconsole.plugins.ds:1.0.0">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="webconsole.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.felix.inventory:1.0.4">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="webconsole.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.webconsole-validateroute:16.1.0.SNAPSHOT">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="webconsole.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.webconsole-useradmin:16.1.0.SNAPSHOT">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="webconsole.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.web.console.auth.pass:1.0.0">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="webconsole.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.util.inventory:1.0.0">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="webconsole.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.web.console.shell:1.0.0">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="webconsole.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.webservices.jsonrpc.api:1.0.5">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="webconsole.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.webservices.jsonrpc.core:1.0.5">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="webconsole.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.webservices.jsonrpc.handler.useradmin:1.0.5">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="webconsole.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.prosyst.mbs.web.api:1.0.0">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="webconsole.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.apache.commons.fileupload:1.2.2">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.storeforward-api:16.1.0.SNAPSHOT">
+      <attribute type="string" value="false" name="activationPolicy"/>
+      <attribute type="int" value="5" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.eclipse.jetty.security:9.2.1.v20140609">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="6" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.eclipse.jetty.servlet:9.2.1.v20140609">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="6" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.eclipse.jetty.http:9.2.1.v20140609">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="6" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.eclipse.jetty.util:9.2.1.v20140609">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="6" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.eclipse.jetty.io:9.2.1.v20140609">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="6" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.eclipse.jetty.websocket.servlet:9.2.1.v20140609">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="6" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.eclipse.jetty.websocket.client:9.2.1.v20140609">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="6" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.eclipse.jetty.websocket.common:9.2.1.v20140609">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="6" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.eclipse.jetty.websocket.javax.websocket:9.2.1.v20140609">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="6" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.eclipse.jetty.websocket.javax.websocket.server:9.2.1.v20140609">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="6" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.eclipse.jetty.server:9.2.1.v20140609">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="6" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:org.eclipse.jetty.websocket.server:9.2.1.v20140609">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="6" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.websocketriver-send:16.1.0.SNAPSHOT">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="6" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.httpclient:16.1.0.SNAPSHOT">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="7" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.predixcloud-identity:16.1.0.SNAPSHOT">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="7" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.machinegateway-impl:16.1.0.SNAPSHOT">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="7" name="startLevel"/>
+      <attribute type="string" value="machinegateway.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.hoover-impl:16.1.0.SNAPSHOT">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="7" name="startLevel"/>
+      <attribute type="string" value="machinegateway.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.machineadapter-modbus:16.1.0.SNAPSHOT">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="7" name="startLevel"/>
+      <attribute type="string" value="machinegateway.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.machineadapter-healthmonitor:16.1.0.SNAPSHOT">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="7" name="startLevel"/>
+      <attribute type="string" value="machinegateway.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.wsclient-impl:16.1.0.SNAPSHOT">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="7" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.wsserver:16.1.0.SNAPSHOT">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="7" name="startLevel"/>
+      <attribute type="string" value="websocket.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.management-impl:16.1.0.SNAPSHOT">
+      <attribute type="string" value="lazy" name="activationPolicy"/>
+      <attribute type="int" value="7" name="startLevel"/>
+      <attribute type="string" value="machinegateway.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.osgiBundle" location="tp:com.ge.dspmicro.storeforward-impl:16.1.0.SNAPSHOT">
+      <attribute type="string" value="true" name="activationPolicy"/>
+      <attribute type="int" value="7" name="startLevel"/>
+      <attribute type="string" value="boot.ini" name="bootIni"/>
+    </element>
+    <element type="com.prosyst.tools.builder.platformComponent">
+      <attribute type="string" value="RaspberryPI" name="com.prosyst.tools.builder.nameAttribute"/>
+      <attribute type="string" value="Linux" name="com.prosyst.tools.builder.platformComponent.os"/>
+      <attribute type="string" value="arm_le" name="com.prosyst.tools.builder.platformComponent.cpu"/>
+      <attribute type="string" value="RaspberryPI" name="com.prosyst.tools.builder.idAttribute"/>
+      <attribute type="string" value="arm-raspbian" name="com.prosyst.tools.builder.toolchain"/>
+      <attribute type="string" value="Linux" name="com.prosyst.tools.builder.generator.platformComponent.osList"/>
+      <attribute type="string" value="RaspberryPI" name="com.prosyst.tools.builder.descriptionAttribute"/>
+    </element>
+  </element>
+</elements>

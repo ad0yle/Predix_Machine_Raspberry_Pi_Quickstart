@@ -1,0 +1,4 @@
+# This file contains properties, that are specific to this virtual machine
+# The file ../common.prs contains properties, that enable or disable
+# some of the framework features, or controlls the behaviour of certain
+# modules.

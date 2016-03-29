@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE metatype-provider SYSTEM "conf.dtd">
+<metatype-provider>
+	<objectclass>
+		<name>Remote JSON-RPC Provider Configuration</name>
+		<id>mbs.remote.json-rpc</id>
+		<description>Initial configuration information of the Remote JSON-RPC
+			Provider Bundle.</description>
+		<attribute modifier="req">
+			<name>JSON-RPC Alias</name>
+			<id>alias</id>
+			<description>This property specified the default alias where you can
+				access the JSON-RPC provider. Please note, if you change that to
+				something else, you can break a lot of web applications that has
+				hard-coded the alias to the JSON-RCP provider.</description>
+			<type>string</type>
+			<value>
+				<scalar>/remote/json-rpc</scalar>
+			</value>
+		</attribute>
+		<attribute modifier="req">
+			<name>Use custom RemoteAuthenticators</name>
+			<id>service.secure.custom</id>
+			<description>The JSON-RPC provider allows developers to install new
+				authentication providers by registering a RemoteAuthenticator
+				services. These providers will be used automatically, but you need
+				to instruct the provider to use them. So in this property, you can
+				specify a comma-separated list of RemoterAuthenticator service PIDs
+				to be used when verifying access to remote services.</description>
+			<type>string</type>
+		</attribute>
+		<attribute modifier="req">
+			<name>HTTPS protocol filters</name>
+			<id>service.secure.https</id>
+			<description>If this property is set true, the JSON-RPC remote
+				provider will always redirect the request over secure (HTTPS)
+				connection.</description>
+			<type>boolean</type>
+			<value>
+				<scalar>false</scalar>
+			</value>
+		</attribute>
+		<attribute modifier="req">
+			<name>IP filter</name>
+			<id>service.secure.ipfilter</id>
+			<description>Set this property if you want to limit the access and
+				allow it only from the specified list of IP rules. The format of the
+				property is '[rule]?[,rule]*'. Where rule is and IP address or IP
+				range. Here is an example: 172.22.200.21,
+				192.168.1.0-192.168.1.32,10.8.0.1/16.</description>
+			<type>string</type>
+		</attribute>
+		<attribute modifier="req">
+			<name>Role based filters</name>
+			<id>service.secure.rolefilter</id>
+			<description>Setting this property to something else than empty
+				string will require a user login. If the user is not already logged
+				in, he/she will be asked to do that via Basic HTTP authentication.
+				Then the user will be checked if has all the roles specified by this
+				property. The roles are separated by comma.</description>
+			<type>string</type>
+            <value>
+                <scalar>administration</scalar>
+            </value>
+		</attribute>
+		<attribute modifier="req">
+			<name>Use Default HTTP Security</name>
+			<id>service.secure.defaultcontext</id>
+			<description>Setting this property will force the JSON-RPC provider
+				to call-back to the default HTTP context in addition to the security
+				filters. This will automatically apply the default security scheme
+				that is defined for the HTTP server.</description>
+			<type>boolean</type>
+			<value>
+				<scalar>true</scalar>
+			</value>
+		</attribute>
+	</objectclass>
+</metatype-provider>

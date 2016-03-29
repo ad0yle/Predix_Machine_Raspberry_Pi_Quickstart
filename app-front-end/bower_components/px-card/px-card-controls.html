@@ -1,0 +1,39 @@
+
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
+    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs
+    See https://github.com/jreichenberg/grunt-dep-serve#why-do-we-need-this
+-->
+<link rel="import" href="../polymer/polymer.html"/>
+
+
+<!--
+Element providing refresh controls for cards
+
+##### Usage
+
+    <px-card-controls></px-card-controls>
+
+@element px-card-controls
+@blurb Element containing refresh button will call card api method "refresh".
+@homepage index.html
+-->
+
+<dom-module id="px-card-controls">
+  <link rel="import" type="css" href="css/px-card-controls.css"/>
+  <template>
+    <button class="btn btn--small btn--primary" on-click="refresh">refresh</button>
+  </template>
+</dom-module>
+
+<script type="text/javascript">
+
+    Polymer({
+        is: 'px-card-controls',
+        refresh: function(){
+            this.fire('px-card-refresh');
+        }
+    });
+
+</script>

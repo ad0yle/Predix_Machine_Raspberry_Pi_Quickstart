@@ -1,0 +1,27 @@
+{
+  "name": "px-login",
+  "version": "0.0.9",
+  "main": [
+    "px-login.html"
+  ],
+  "ignore": [
+    ".*",
+    "npm-debug.log",
+    "Gruntfile.js",
+    "sass",
+    "bower_components",
+    "node_modules",
+    "test"
+  ],
+  "dependencies": {
+    "polymer": "~v1.0.3",
+    "px-theme": "https://github.com/PredixDev/px-theme.git#~v0.3.0",
+    "es6-promise": "https://github.com/jakearchibald/es6-promise.git#2.3.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#~v1.0.4",
+    "px-buttons-design": "https://github.com/PredixDev/px-buttons-design.git#~0.4.0",
+    "px-list-bare-design": "https://github.com/PredixDev/px-list-bare-design.git#~0.2.8",
+    "px-starter-kit-design": "https://github.com/PredixDev/px-starter-kit-design.git#~0.4.5"
+  }
+}

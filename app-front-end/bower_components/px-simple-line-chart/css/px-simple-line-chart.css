@@ -1,0 +1,97 @@
+/*
+ * Copyright (c) 2014 GE Global Research. All rights reserved.
+ *
+ * The copyright to the computer software herein is the property of
+ * GE Global Research. The software may be used and/or copied only
+ * with the written permission of GE Global Research or in accordance
+ * with the terms and conditions stipulated in the agreement/contract
+ * under which the software has been supplied.
+ */
+/*
+THIS FILE SHOULD CONTAIN ONLY RULES SPECIFIC TO PREDIX BRANDING
+common/abstract rules go in px-simple-line-chart-sketch.scss, not in this file.
+*/
+/*------------------------------------*    #PX-COLORS-DESIGN
+\*------------------------------------*/
+/**
+ * Brand Colors
+ */
+/**
+     * Primary
+     */
+/**
+     * Light
+     */
+/**
+     * Dark
+     */
+/**
+ * Monochromatic (gray10 is darkest, gray1 is lightest)
+ */
+/**
+ * Buttons
+ */
+/**
+ * Selection
+ */
+/**
+ * Alerts
+ */
+/**
+ * Data Visualization
+ */
+/**
+     * Basic
+     */
+/**
+     * Light
+     */
+/**
+     * Dark
+     */
+/*
+ * Copyright (c) 2014 GE Global Research. All rights reserved.
+ *
+ * The copyright to the computer software herein is the property of
+ * GE Global Research. The software may be used and/or copied only
+ * with the written permission of GE Global Research or in accordance
+ * with the terms and conditions stipulated in the agreement/contract
+ * under which the software has been supplied.
+ */
+/*
+THIS FILE SHOULD CONTAIN ONLY ABSTRACT/'SKETCH' THEME RULES, NOT SPECIFIC TO PREDIX BRANDING
+Predix branding rules go in px-simple-line-chart-predix.scss, not in this file.
+*/
+.chartBorder {
+  stroke: #000000;
+  stroke-width: 1; }
+
+.chartGrid {
+  stroke: #E4E4EA;
+  stroke-width: 1;
+  fill: none; }
+
+rect.chartBottom {
+  fill: #ffffff; }
+
+rect.axisBar {
+  fill: #F7F7FC; }
+
+text.axisLabel {
+  fill: #7C7C84;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: lighter;
+  display: block; }
+
+.chartLine {
+  stroke: #01B2E5;
+  stroke-width: 1;
+  fill: none; }
+
+.thresholdLine {
+  stroke: #FAA43A;
+  stroke-width: 1; }
+
+.newClass {
+  stroke: #000; }

@@ -1,0 +1,19 @@
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../px-card/px-card.html" />
+
+<dom-module id="gist-card">
+  <link rel="import" type="css" href="css/px-sample-cards.css" />
+  <template>
+    <px-card header-text="Predix Seed App">
+      <h1 class="epsilon normal-weight">Use the Seed App to develop your own industrial monitoring application.</h1>
+      <div class="epsilon">Documentation</div>
+      <span>For documentation on the seed go to <a href="https://www.predix.io/docs#Je2y7sCv">https://www.predix.io/docs#Je2y7sCv</a></span>
+    </px-card>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'gist-card',
+    behaviors: [px.card]
+  });
+</script>

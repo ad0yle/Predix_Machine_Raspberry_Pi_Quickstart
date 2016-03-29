@@ -1,0 +1,114 @@
+<link rel="import" href="../polymer/polymer.html"/>
+
+
+<!--
+Element which displays a dropdown of decks and returns the url for the selected deck.
+
+##### Usage
+
+    <px-deck-selector decks="{{...}}" selected-deck-url="{{...}}"></px-deck-selector>
+
+@demo demo.html
+-->
+<dom-module id="px-deck-selector">
+    <link rel="import" type="css" href="css/px-deck-selector.css"/>
+    <template>
+        <div class="dropdown-text" on-click="_toggleDropdown" hidden$="{{!isDecks}}">
+            <span class="epsilon">{{selectedDeck.name}}</span>
+            <i class="fa fa-caret-down"></i>
+        </div>
+        <ul id="dropdown" class="dropdown-menu list-bare" hidden>
+            <template is="dom-repeat" items="{{decks}}" as="deck">
+                <li on-click="_selectDeck">
+                    <div>{{deck.name}}</div>
+                </li>
+            </template>
+        </ul>            
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+
+        is: 'px-deck-selector',
+
+        properties: {
+
+            /**
+             * List of decks to display.
+             * 
+             *      [
+             *          {name: 'First Deck', url: '/deck1'},
+             *          {name: 'Second Deck', url: '/deck2'},
+             *          {name: 'Third Deck', url: '/deck3'}                    
+             *      ]
+             *
+             * The first deck will always be selected initially.
+             */
+            decks: {
+                type: Array,
+                observer: '_setDecks'
+            },
+
+            /**
+             * Url of the selected deck.
+             *
+             * Only used for communicating out the selected deck.  The first deck
+             * in the list of decks will always be selected initially.
+             */
+            selectedDeckUrl: {
+                type: String,
+                notify: true,
+                reflectToAttribute: true
+            },
+
+            /**
+             * @private
+             */
+             isDecks: {
+                type: Boolean,
+                value: false
+             },
+
+             /**
+              * @private
+              * needed for IE...
+              */
+             isDropdownOpen: {
+                type: Boolean,
+                value: false
+             }
+        },
+
+        observers: ['_broadcastSelectedDeckUrl(selectedDeck)'],
+
+        _setDecks: function() {
+            this.set('isDecks', this.decks && this.decks.length > 0);
+
+            var selectedDeck = null;
+
+            if(this.isDecks) { 
+                selectedDeck = this.decks[0];
+            }
+            
+            this.set('selectedDeck', selectedDeck);
+        },
+
+        _toggleDropdown: function() {
+            this.isDropdownOpen = !this.isDropdownOpen;
+            this.toggleAttribute('hidden', !this.isDropdownOpen, this.$.dropdown);
+        },
+
+        _broadcastSelectedDeckUrl: function() {
+            if(this.selectedDeck) {
+                this.set('selectedDeckUrl', this.selectedDeck.url);                
+            }
+        },
+
+        _selectDeck: function(e) {
+            this.set('selectedDeck', e.model.deck);
+            this._toggleDropdown();
+        }
+
+    });
+</script>

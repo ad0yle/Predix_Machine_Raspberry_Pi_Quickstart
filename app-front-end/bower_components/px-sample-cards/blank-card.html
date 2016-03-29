@@ -1,0 +1,16 @@
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../px-card/px-card.html" />
+
+<dom-module id="blank-card">
+  <template>
+    <px-card header-text="Blank Card">
+      <content></content>
+    </px-card>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'blank-card',
+    behaviors: [px.card]
+  });
+</script>

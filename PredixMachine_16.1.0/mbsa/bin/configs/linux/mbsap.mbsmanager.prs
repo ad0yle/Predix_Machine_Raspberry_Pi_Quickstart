@@ -1,0 +1,162 @@
+# Default target type and mode to start.
+# mBS manager will not auto start the runtime if
+# the target type property is not set or is empty.
+mbs.manager.default.target.type = com.prosyst.mbs.framework
+mbs.manager.default.target.mode =
+
+# How long to wait for the watchdog ping from the framework in seconds.
+mbs.manager.ping.timeout = 60
+
+# The number of unexpected framework exits or crashes, after which mBSA will restart the OS.
+# - If set to 0, the OS will be restarted immediately on first crash/timeout/fault of mBS.
+# - if set to X >= 2, mBSA will restart mBS (X-1) times, and after that will restart the OS.
+# If mbs.manager.os.restart = false, mBSA will just stop restarting mBS.
+mbs.manager.restart.max = 6
+
+# Interval to check maximum restart count rate in seconds. If more than 
+# mbs.manager.restart.interval seconds passed since last restart timestamp,
+# restart counter is reset back to 1 and restart timestamp is set at current time.
+# NOTE: Make sure this is > ${mbs.manager.restart.max} * {rtc.timeout.runtime.start} + some overhead (e.g. 100s)
+mbs.manager.restart.interval = 4000
+
+# Time in seconds to wait after send FW notification and before restart OS/mBS.
+mbs.manager.fwnotify.waittime = 5
+
+### Update Manager configuration
+
+# Base directory, containing mbsa/, machine/ and persistent update storage (in case of machine updates)
+# if empty, UM does not check for required dirs...
+mbs.manager.update.dir = ../..
+
+# Current JVM dir, if empty JVM Update is disabled!
+mbs.manager.update.jvm.dir=
+mbs.manager.update.jvm.dir=
+
+# Time in seconds to wait for faults during FW validation after FW started.
+mbs.manager.fwvalidation.waittime = 150
+
+# Enable or disable os restart.
+mbs.manager.os.restart = false
+
+
+# Target type of the runtime.
+mbs.manager.rtc.1.target_type = com.prosyst.mbs.framework
+# Target type version of the runtime.
+mbs.manager.rtc.1.version = 1.0
+# Properties of the runtime.
+mbs.manager.rtc.1.properties = 
+mbs.manager.rtc.1.properties:debug = server=y,suspend=y,address=8000
+mbs.manager.rtc.1.properties:profile = attach=5115
+mbs.manager.rtc.1.properties:profile_jvmti = attach=5115
+mbs.manager.rtc.1.properties:validate = 
+
+# Working directory for executable.
+mbs.manager.rtc.1.working_dir=../../machine/bin/vms/jdk
+# Executable of the runtime. (NOTE: for SDK version < 8.0 use ./server script)
+# GE Change from Prosyst
+#mbs.manager.rtc.1.exec = ./server.sh
+mbs.manager.rtc.1.exec = ../../predix/predixmachine
+
+
+# Arguments to pass to executable.
+mbs.manager.rtc.1.args = ../../../../mbsa/bin/vms/mbsa.sh
+mbs.manager.rtc.1.args:debug = ../../../../mbsa/bin/vms/mbsa.sh debug dbg_suspend
+mbs.manager.rtc.1.args:profile = ../../../../mbsa/bin/vms/mbsa.sh profiler suspend
+mbs.manager.rtc.1.args:profile_jvmti = ../../../../mbsa/bin/vms/mbsa.sh profiler jvmti suspend
+mbs.manager.rtc.1.args:validate = ../../../../mbsa/bin/vms/mbsa.sh validate
+
+# Monitoring could be disabled while debugging/profiling to prevent mbs timeouts, faults, etc.
+mbs.manager.rtc.1.monitored=true
+mbs.manager.rtc.1.monitored:debug=false
+mbs.manager.rtc.1.monitored:profile=false
+mbs.manager.rtc.1.monitored:profile_jvmti=false
+
+# Environment to pass to the executable.
+#   The envs need to be in format key1=value1|key2=value2|...
+mbs.manager.rtc.1.env = 
+# Multiple instance flag.
+mbs.manager.rtc.1.multiple = true
+# Kill executable.
+mbs.manager.rtc.1.kill_exec = 
+# Kill executable arguments.
+mbs.manager.rtc.1.kill_args = 
+# Working directory for kill executable.
+mbs.manager.rtc.1.kill_working_dir = 
+# Environment to pass to the kill executable.
+# The envs need to be in format key1=value1|key2=value2|...
+mbs.manager.rtc.1.kill_env = 
+# Reset autostart flag. When runtime is restarted due to autostart flag 
+# the flag will be set to false to prevent following restarts.
+mbs.manager.rtc.1.reset_autostart = false
+
+
+### JVM CPU/Memory/Instances monitoring section ###
+# Note: You need to enable global cpu/mem/inst monitoring in mbsap.watchdog.process.prs
+
+# [String] The name of the JVM process
+# NOTE: Append extension for Win32 (e.g. java.exe)
+# NOTE: If multiple JVM processes are expected to exist on host, rename jvm executable 
+#       to an unique process name e.g. (java-mbs-7.5)
+mbs.manager.mbs_watchdog.process_name =
+
+# [Integer] Period of time over which to measure in seconds
+mbs.manager.mbs_watchdog.period = 5
+
+# [Boolean] Whether CPU monitoring is enabled.
+mbs.manager.mbs_watchdog.cpu_enabled = false
+
+# [Integer] CPU limit for the process as percentage [0-100] / [CPU Count]
+# NOTE: CPU% is scaled by CPU Count in multi core systems (e.g. in dual core max CPU will be 200%) 
+#       usually JVM will consume 100% for a single CPU, so suggested MAX value for dual core is 50%
+mbs.manager.mbs_watchdog.cpu_limit = 95
+
+# [Boolean] Whether memory monitoring is enabled.
+mbs.manager.mbs_watchdog.mem_enabled = false
+
+# [Integer] Memory limit for the process in Bytes
+mbs.manager.mbs_watchdog.mem_limit = 10485760
+
+# [Boolean] Whether instance count monitoring is enabled.
+mbs.manager.mbs_watchdog.inst_enabled = false
+
+# [Integer] Instance count limit
+mbs.manager.mbs_watchdog.inst_limit = 2
+
+# [Boolean] When set, count only process instances with same name but different parents
+# (to counter the case when threads show up as child processes)
+mbs.manager.mbs_watchdog.count_only_diff_parents = true
+
+# [Boolean] When set, count only running instances (to disable counting zombies)
+mbs.manager.mbs_watchdog.count_only_running = true
+
+# [String] Actions to execute on CPU, Mem, Inst limit event.
+#   none - do nothing
+#   restart - restart mBS
+#   restart_clean - restart mBS with clean storage
+#   restart_os - restart OS
+#   restart_os_clean - restart OS with clean storage
+# NOTE: These are mBS Manager specific actions, Process Watchdog action is 'none' + event sending
+mbs.manager.mbs_watchdog.cpu_limit.action = none
+mbs.manager.mbs_watchdog.mem_limit.action = none
+mbs.manager.mbs_watchdog.inst_limit.action = none
+
+# Executable to do mBS storage cleanup.
+mbs.manager.storage.cleanup.exec = ../../machine/bin/vms/storage_cleanup.sh
+# Working dir for storage cleanup exec.
+mbs.manager.storage.cleanup.workingdir = .
+# Arguments to execute storage cleanup exec.
+mbs.manager.storage.cleanup.arguments = 
+
+# Executable for OS factory reset.
+mbs.manager.factory.reset.exec = 
+# Working dir for OS factory reset exec.
+mbs.manager.factory.reset.workingdir =
+# Arguments for OS factory reset exec.
+mbs.manager.factory.reset.arguments = 
+
+# Firmware update executable
+mbs.manager.update.firmware.exec = 
+# Firmware update work dir
+mbs.manager.update.firmware.workingdir =
+# Firmware update arguments
+mbs.manager.update.firmware.arguments = 

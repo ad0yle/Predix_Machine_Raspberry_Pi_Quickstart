@@ -1,0 +1,60 @@
+# Set configuration IDs and their attributes
+
+# This is the store file used from Config Manager
+mbsap.configmanager.store.file = mbsap.configmanager.store.prs
+
+mbsap.comms = mbsap.comms.prs
+mbsap.comms:name = Comms
+mbsap.comms:description = Comms configuration.
+
+mbsap.rtc = mbsap.rtc.prs
+mbsap.rtc:name = Runtime Controller
+mbsap.rtc:description = Runtime controller configuration.
+
+mbsap.mbsmanager = mbsap.mbsmanager.prs
+mbsap.mbsmanager:name = mBS Manager
+mbsap.mbsmanager:description = mBS manager configuration.
+
+mbsap.watchdog.os = mbsap.watchdog.os.prs
+mbsap.watchdog.os:name = Watchdog OS
+mbsap.watchdog.os:description = Watchdog OS configuration.
+
+mbsap.watchdog.process = mbsap.watchdog.process.prs
+mbsap.watchdog.process:name = Watchdog Process
+mbsap.watchdog.process:description = Watchdog process configuration.
+
+mbsap.watchdog.hwd = mbsap.watchdog.hwd.prs
+mbsap.watchdog.hwd:name = Watchdog Hardware
+mbsap.watchdog.hwd:description = Watchdog hardware configuration.
+
+mbsap.os.restart = mbsap.os.restart.prs
+mbsap.os.restart:name = OS Restart
+mbsap.os.restart:description = OS restart configuration.
+
+mbsap.extcounters = mbsap.extcounters.prs
+mbsap.extcounters:name = External Counters
+mbsap.extcounters:description = External counters configuration.
+
+mbsap.global = mbsap.global.prs
+mbsap.global:name = Global
+mbsap.global:description = Global configuration
+
+mbsap.mbs.common = mbsap.mbs.common.prs
+mbsap.mbs.common:name = mBS Common
+mbsap.mbs.common:description = mBS common configuration.
+
+mbsap.mbs.confirm.restart = mbsap.mbs.confirm.restart.prs
+mbsap.mbs.confirm.restart:name = mBS Confirm Restart
+mbsap.mbs.confirm.restart:description = mBS confirm restart configuration.
+
+mbsap.threadguard = mbsap.threadguard.prs
+mbsap.threadguard:name = Thread Guard
+mbsap.threadguard:description = Guards thread by using watchdog hwd or own thread.
+
+mbsap.fileaccess = mbsap.fileaccess.prs
+mbsap.fileaccess:name = File Access
+mbsap.fileaccess:description = Used to access remotly files through Comms.
+
+mbsap.nrunner = mbsap.nrunner.prs
+mbsap.nrunner:name = Native Runner
+mbsap.nrunner:description = Used to run processes through pipes.

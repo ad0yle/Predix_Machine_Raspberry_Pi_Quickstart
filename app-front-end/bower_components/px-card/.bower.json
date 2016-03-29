@@ -1,0 +1,44 @@
+{
+  "name": "px-card",
+  "version": "0.1.2",
+  "main": [
+    "px-card.html"
+  ],
+  "ignore": [
+    ".*",
+    "npm-debug.log",
+    "Gruntfile.js",
+    "sass",
+    "bower_components",
+    "node_modules",
+    "test"
+  ],
+  "dependencies": {
+    "polymer": "^v1.1.0",
+    "px": "https://github.com/PredixDev/px.git#~1.2.0",
+    "es6-promise": "https://github.com/jakearchibald/es6-promise.git#~2.3.0",
+    "px-theme": "https://github.com/PredixDev/px-theme.git#~0.3.3"
+  },
+  "devDependencies": {
+    "web-component-tester": "Polymer/web-component-tester#~3.3.30",
+    "iron-component-page": "PolymerElements/iron-component-page#~v1.0.5",
+    "jasmine-jquery": "~2.1.0",
+    "jquery": "~2.1.4",
+    "px-box-design": "https://github.com/PredixDev/px-box-design.git#~0.3.8",
+    "px-buttons-design": "https://github.com/PredixDev/px-buttons-design.git#~0.4.12",
+    "px-layout-design": "https://github.com/PredixDev/px-layout-design.git#~0.3.0",
+    "px-starter-kit-design": "https://github.com/PredixDev/px-starter-kit-design.git#~0.4.5",
+    "px-chart": "https://github.com/PredixDev/px-chart.git#~1.0.0",
+    "px-defaults-design": "https://github.com/PredixDev/px-defaults-design.git#~0.2.4"
+  },
+  "homepage": "https://github.com/PredixDev/px-card",
+  "_release": "0.1.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.1.2",
+    "commit": "f6890dce9db51992ebf8b27bfede33bc0a111e2a"
+  },
+  "_source": "https://github.com/PredixDev/px-card.git",
+  "_target": "~v0.1.0",
+  "_originalSource": "https://github.com/PredixDev/px-card.git"
+}
